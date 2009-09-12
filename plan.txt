@@ -9,3 +9,4 @@ Gestures
 	Making a fist
 	Pointing with index finger
 	Swinging hand around
+ 
