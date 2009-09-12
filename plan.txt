@@ -1,0 +1,11 @@
+Today: get video, write interfaces
+
+David - Frame processing: takes frames and returns the background differencing
+Abhinay - Motion Template comparison: compares processed frames to motion templates
+Video Abstraction Layer: pulls frames from camera or file
+Howell - Response System: takes in frames of video, applies blob processing, runs the (parameterized) template comparison 
+Justin - Result Display: swing
+Gestures
+	Making a fist
+	Pointing with index finger
+	Swinging hand around
