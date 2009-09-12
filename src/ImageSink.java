@@ -5,7 +5,7 @@
  * @author dml
  * 
  */
-public interface ImageSink<T> {
+public interface ImageSink {
 
 	/**
 	 * Notify this {@link ImageSink} of a new {@link CS440Image}.
