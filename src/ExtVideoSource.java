@@ -15,7 +15,7 @@ import java.util.TimerTask;
  * @author Sam Epstein 
  *
  */
-class ExtVideoSource {
+class ExtVideoSource implements VideoSource {
      
 	public void run() {
 
@@ -55,13 +55,17 @@ class ExtVideoSource {
      VideoSink videoSink;
      int waitTime = 0;
 
+    /* (non-Javadoc)
+     * @see VideoSource#setup(VideoSink)
+     */
     public void setup(VideoSink videoSink)
- 	throws Exception
  	{
  		setup(videoSink,15);
  	}
+ 	/* (non-Javadoc)
+ 	 * @see VideoSource#setup(VideoSink, int)
+ 	 */
  	public void setup(VideoSink videoSink,int framesPerSecond)
- 	throws Exception
  	{
  		this.videoSink=videoSink;
  		waitTime = (int)(1000.0/((double)framesPerSecond)); 		
