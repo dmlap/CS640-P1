@@ -10,7 +10,7 @@ import java.awt.image.*;
  * 
  * @author Sam Epstein
  **********/
-public class VideoSink {
+public class VideoSink implements ImageSink {
 
 	//The window to display images
 	ImageViewer imageViewer;
@@ -25,19 +25,17 @@ public class VideoSink {
 		counter = 0;
 	}
 	
-	
-	 
-	/**
-	 * The central function of VideoSink and the place where students
-	 * can edit the code. receiveFrame function is given an image. The 
-	 * body of the code will perform high level manipulatations of the 
-	 * image, then display the image in the imageViewer. The return values
-	 * indicates to the the video source whether or not to keep sending 
-	 * images.
-	 * 
-	 * @param frame The current frame of the video source/
-	 * @param firstFrame Whether or not the frame is the first frame of the video
-	 * @return true if the video source should continue, or false if the video source should stop.
+	/* (non-Javadoc)
+	 * @see ImageSink#receive(CS440Image)
+	 */
+	@Override
+	public void receive(CS440Image frame) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see ImageSink#receiveFrame(CS440Image)
 	 */
 	public boolean receiveFrame(CS440Image frame) {
 	
