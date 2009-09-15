@@ -17,7 +17,7 @@ import java.util.Queue;
  * @author dml
  * 
  */
-public class BackgroundDifferenceProcessor implements ImageSink, ImageSource {
+public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	private static final int MAX_RED = Color.RED.getRed();
 	private static final int MAX_GREEN = Color.GREEN.getGreen();
 	private static final int MAX_BLUE = Color.BLUE.getBlue();
@@ -37,14 +37,14 @@ public class BackgroundDifferenceProcessor implements ImageSink, ImageSource {
 	private ImageSink processor = new Loading();
 	/**
 	 * The {@link ImageSink} subscribers to this
-	 * {@link BackgroundDifferenceProcessor}.
+	 * {@link TemporalDifferenceProcessor}.
 	 */
 	private List<ImageSink> subscribers = new ArrayList<ImageSink>(1);
 
 	/**
 	 * Load up received {@link CS440Image CS440Images} until the buffer's
 	 * {@link Queue#size() size} reaches the
-	 * {@link BackgroundDifferenceProcessor#window window} size.
+	 * {@link TemporalDifferenceProcessor#window window} size.
 	 * 
 	 * @author dml
 	 * 
@@ -61,11 +61,11 @@ public class BackgroundDifferenceProcessor implements ImageSink, ImageSource {
 
 	/**
 	 * Find the absolute value of all "adjacent" {@link CS440Image CS440Images}
-	 * in the {@link BackgroundDifferenceProcessor#buffer buffer}, accumulate
+	 * in the {@link TemporalDifferenceProcessor#buffer buffer}, accumulate
 	 * those difference magnitudes, notify subscribers of the result and then
-	 * update the {@link BackgroundDifferenceProcessor#buffer buffer} with the
+	 * update the {@link TemporalDifferenceProcessor#buffer buffer} with the
 	 * new {@link CS440Image}. This class assumes all {@link CS440Image
-	 * CS440Images} in the {@link BackgroundDifferenceProcessor#buffer buffer}
+	 * CS440Images} in the {@link TemporalDifferenceProcessor#buffer buffer}
 	 * are of the same height and width.
 	 * 
 	 * @author dml

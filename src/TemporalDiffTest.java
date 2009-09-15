@@ -8,12 +8,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BGDiffTest {
-	private BackgroundDifferenceProcessor bdp;
+public class TemporalDiffTest {
+	private TemporalDifferenceProcessor bdp;
 	private List<CS440Image> os;
 	@Before
 	public void before() {
-		bdp = new BackgroundDifferenceProcessor();
+		bdp = new TemporalDifferenceProcessor();
 		os = new ArrayList<CS440Image>(4);
 		bdp.subscribe(new ImageSink() {
 			@Override
