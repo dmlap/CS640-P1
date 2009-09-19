@@ -110,6 +110,7 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	 */
 	@Override
 	public void receive(CS440Image frame) {
+		System.out.println("Temporal Difference Receiving...");
 		processor.receive(frame);
 	}
 

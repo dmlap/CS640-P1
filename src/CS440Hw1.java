@@ -21,7 +21,12 @@ public class CS440Hw1 {
 
 			//start grab
 			evs.run();
-		
+			
+			ImageMomentsGenerator img = new ImageMomentsGenerator();
+			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
+
+			tdp.subscribe(img);
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();

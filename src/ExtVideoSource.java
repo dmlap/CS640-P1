@@ -31,6 +31,7 @@ class ExtVideoSource implements VideoSource {
 			width = dims[0];
 			height = dims[1];
 			/* justin's code */
+			/*
 			int count = 0;
 			int max = 5;
 			File dir = new File("images");
@@ -52,8 +53,9 @@ class ExtVideoSource implements VideoSource {
 				try { Thread.sleep(waitTime); }
 				catch (Exception e) {}
 			}
+			*/
 			/* end of justin's code */
-			/*
+			
 	 		while(true)
 	 		{
 	 			BufferedImage bi = grabFrame();
@@ -64,7 +66,7 @@ class ExtVideoSource implements VideoSource {
 	 			}
 	 			try{Thread.sleep(waitTime);}catch(Exception e){}
 	 		}
-	 		*/
+	 		
 		}catch(Exception e)
 		{
 			e.printStackTrace();

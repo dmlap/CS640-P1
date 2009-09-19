@@ -49,6 +49,7 @@ public class ImageMomentsGenerator implements ImageSink {
 	
 	@Override
 	public void receive(CS440Image frame) {
+		System.out.println("Moments Generator Receiving...");
 		momentsgenerator(frame);
 	}
 

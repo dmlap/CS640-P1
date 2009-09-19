@@ -12,6 +12,8 @@ import java.awt.image.*;
  **********/
 public class VideoSink implements ImageSink {
 
+	TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(); 
+	
 	//The window to display images
 	ImageViewer imageViewer;
 	
@@ -30,8 +32,7 @@ public class VideoSink implements ImageSink {
 	 */
 	@Override
 	public void receive(CS440Image frame) {
-		// TODO Auto-generated method stub
-		
+		//processor.receive(frame);		
 	}
 
 	/* (non-Javadoc)
@@ -42,10 +43,11 @@ public class VideoSink implements ImageSink {
 		/**********
 		 * Replace function with your code
 		 **********/
+		tdp.receive(frame);		
 		
 		counter++;
 		
-		if(counter>=500)
+		if(counter>=50)
 		{
 			close();
 			return false;
