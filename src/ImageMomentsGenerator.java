@@ -15,45 +15,13 @@ import java.util.List;
  * @author Abhinay
  * 
  */
-public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource<ImageMoments> {
-	
-    /**
-     * 
-     * Variables to store the first and second order moments.
-     */
-	private int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
-	
+public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMoments> {
+		
 	/**
-     * 
-     * Variables to store the centroid location.
-     */
-	private int x = 0, y = 0; 
-	
-	/**
-     * 
-     *Intermediate variables required to calculate image properties.
-     */
-	private int a = 0, b = 0, c = 0;
-	
-	/**
-     * 
-     *Variables to store the Length and Breadth of the rectangle with similar moments as those
-     * of the {@link CS440Image image} being processed.
-     */
-	private int L1 = 0, L2 = 0;
-	
-	/**
-	 * The {@link ImageSink} subscribers to this
+	 * The {@link Sink} subscribers to this
 	 * {@link ImageMomentsGenerator}.
 	 */
-	private List<ImageSink<ImageMoments>> subscribers = new ArrayList<ImageSink<ImageMoments>>(1);
-	
-	/**
-     * 
-     *Variable to store the orientation of the rectangle with similar moments as those
-     * of the {@link CS440Image image} being processed.
-     */
-	private double theta;
+	private List<Sink<ImageMoments>> subscribers = new ArrayList<Sink<ImageMoments>>(1);
 	
 	@Override
 	public void receive(CS440Image frame) {
@@ -69,11 +37,58 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 	 * @return 
      */
 	public void momentsgenerator(CS440Image frame){
+		
+		/**
+	     * 
+	     * Variables to store the first and second order moments.
+	     */
+		private int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
+		
+		/**
+	     * 
+	     * Variables to store the centroid location.
+	     */
+		private int x = 0, y = 0; 
+		
+		/**
+	     * 
+	     *Intermediate variables required to calculate image properties.
+	     */
+		private double a = 0, b = 0, c = 0;
+		
+		/**
+	     * 
+	     *Variables to store the Length and Breadth of the rectangle with similar moments as those
+	     * of the {@link CS440Image image} being processed.
+	     */
+		private int L1 = 0, L2 = 0;
+
+		/**
+	     * 
+	     *Variables to store the bounding box of the object in 
+	     *the {@link CS440Image image} being processed.
+	     */
+		private int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+		
+		/**
+	     * 
+	     *Variable to store the orientation of the rectangle with similar moments as those
+	     * of the {@link CS440Image image} being processed.
+	     */
+		private double theta;
+		
 		BufferedImage image = frame.getRawImage();
 		for(int w = 0; w < image.getWidth(); w++) {
 			for (int h = 0; h < image.getHeight(); h++) {
 				Color pixelint = new Color (image.getRGB(w, h));
 				int intensity = min(min(pixelint.getRed(), 1)+ min(pixelint.getBlue(), 1)+ min(pixelint.getGreen(), 1), 1);
+				
+				if(intensity != 0) {
+					x1 = min(x1, w);
+					x2 = max(x2, w);
+					y1 = min(y1, h);
+					y2 = max(y2, h);
+				}
 				
 				M00 += intensity;
 				M10 += w * intensity;
@@ -93,10 +108,8 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 		c = (M02/M00) - (y * y);
 		
 		theta = atan(b/(a-c)) / 2;
-		L1 = 6 * (a + c + (int)sqrt((b * b) + (a - c) * (a - c) ));
-		L1 = (int)sqrt(L1);
-		L2 = 6 * (a + c - (int)sqrt((b * b) + (a - c) * (a - c) ));
-		L2 = (int)sqrt(L2);
+		L1 = (int)Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L2 = (int)Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
 		
 		ImageMoments moments = new ImageMoments();
 		moments.theta = this.theta;
@@ -104,9 +117,13 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 		moments.L2 = this.L2;
 		moments.x  = this.x;
 		moments.y  = this.y;
+		moments.x1 = this.x1;
+		moments.x2 = this.x2;
+		moments.y1 = this.y1;
+		moments.y2 = this.y2;
 		
 		// notify subscribers
-		for (ImageSink<ImageMoments> subscriber : subscribers) {
+		for (Sink<ImageMoments> subscriber : subscribers) {
 			subscriber.receive(moments);
 		}
 		
@@ -115,9 +132,7 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 	}
 
 	@Override
-	public void subscribe(ImageSink<ImageMoments> sink) {
+	public void subscribe(Sink<ImageMoments> sink) {
 		subscribers.add(sink);	
 	}
-
-	
 }
