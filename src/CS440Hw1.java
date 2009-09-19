@@ -16,10 +16,14 @@ public class CS440Hw1 {
 			results.setVisible(true);
 
 			VideoSink dvs = new VideoSink();
+			VideoSink tdvs = new VideoSink();
 
 			//Initialize VideoSource
 			ExtVideoSource evs = new ExtVideoSource();
-			evs.setup(dvs,500);			
+			evs.setup(dvs,500);
+			
+			ExtVideoSource tdevs = new ExtVideoSource();
+			tdevs.setup(tdvs, 500);
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();

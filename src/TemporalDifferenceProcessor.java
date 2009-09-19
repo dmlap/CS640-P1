@@ -21,6 +21,7 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 	private static final int MAX_RED = Color.RED.getRed();
 	private static final int MAX_GREEN = Color.GREEN.getGreen();
 	private static final int MAX_BLUE = Color.BLUE.getBlue();
+	private VideoSink output;
 	/**
 	 * The number of {@link CS440Image CS440Images} to collect in each
 	 * background difference {@link CS440Image}.
@@ -100,6 +101,9 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 			for (Sink<CS440Image> subscriber : subscribers) {
 				subscriber.receive(new CS440Image(result));
 			}
+			
+			// Show image
+			output.displayImage(new CS440Image(result));
 		}
 	}
 
@@ -124,4 +128,10 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 		subscribers.add(sink);
 	}
 
+	public TemporalDifferenceProcessor() {};
+	
+	public TemporalDifferenceProcessor(VideoSink vs) 
+	{
+		output = vs;
+	}
 }
