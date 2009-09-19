@@ -56,7 +56,7 @@ public class ResultWindow extends JFrame {
         pack();
     }
     
-    SwingWorker worker = new SwingWorker<String,Void>() {
+    SwingWorker<String, Void> worker = new SwingWorker<String,Void>() {
     	int i=0;	 
     	
     	//This method automatically gets executed in a background thread
