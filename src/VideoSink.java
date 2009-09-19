@@ -69,7 +69,7 @@ public class VideoSink implements Sink<CS440Image> {
 	 */
 	public boolean displayImage(CS440Image image)
 	{
-		if(imageViewer == null || !imageViewer.isActive())
+		if(imageViewer == null) //|| !imageViewer.isActive())
 			return false;
 		imageViewer.showImage(image);
 		return true;
