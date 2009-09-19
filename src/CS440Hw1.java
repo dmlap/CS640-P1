@@ -12,6 +12,8 @@ public class CS440Hw1 {
 
 		try
 		{
+			ResultWindow results = new ResultWindow();
+			results.setVisible(true);
 
 			VideoSink dvs = new VideoSink();
 
@@ -21,9 +23,8 @@ public class CS440Hw1 {
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
-			ResultWindow results = new ResultWindow();
 			ObjectTracker ot = new ObjectTracker(results);
-
+			
 			dvs.subscribe(tdp);
 			dvs.subscribe(ot.GetFrameReceiver());
 			tdp.subscribe(img);
