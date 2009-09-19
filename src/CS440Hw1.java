@@ -17,6 +17,8 @@ public class CS440Hw1 {
 
 			VideoSink dvs = new VideoSink();
 			VideoSink tdvs = new VideoSink();
+			ImageViewer viewer = new ImageViewer();
+			ImageViewer diffViewer = new ImageViewer();
 
 			//Initialize VideoSource
 			ExtVideoSource evs = new ExtVideoSource();
@@ -26,12 +28,14 @@ public class CS440Hw1 {
 			tdevs.setup(tdvs, 500);
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
-			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(tdvs);
+			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
 			ObjectTracker ot = new ObjectTracker(results);
 			
 			dvs.subscribe(tdp);
 			dvs.subscribe(ot.GetFrameReceiver());
+			ot.subscribe(viewer);
 			tdp.subscribe(img);
+			tdp.subscribe(diffViewer);
 			img.subscribe(ot);
 			
 			//start grab

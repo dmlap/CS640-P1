@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  *
  */
 @SuppressWarnings("serial")
-public class ImageViewer extends JFrame implements WindowListener {
+public class ImageViewer extends JFrame implements WindowListener, Sink<CS440Image> {
 
 	
 	/**
@@ -96,6 +96,10 @@ public class ImageViewer extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 
+	@Override
+	public void receive(CS440Image frame) {
+		showImage(frame);
+	}
 	
 	/**
 	 * Displays and resizes the image for display.

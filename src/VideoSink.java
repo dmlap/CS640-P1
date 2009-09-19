@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * @author Sam Epstein
  **********/
-public class VideoSink implements Sink<CS440Image> {
+public class VideoSink implements Sink<CS440Image>, Source<CS440Image> {
 
 	//subscribers
 	private List<Sink<CS440Image>> subscribers = new ArrayList<Sink<CS440Image>>(1);
@@ -35,6 +35,10 @@ public class VideoSink implements Sink<CS440Image> {
 	public void receive(CS440Image frame) {
 	}
 
+	/* (non-Javadoc)
+	 * @see Source#subscribe(Sink)
+	 */
+	@Override
 	public void subscribe(Sink<CS440Image> sink) {
 		subscribers.add(sink);
 	}
@@ -43,38 +47,12 @@ public class VideoSink implements Sink<CS440Image> {
 	 * @see ImageSink#receiveFrame(CS440Image)
 	 */
 	public boolean receiveFrame(CS440Image frame, ObjectTracker ot) {
-	
-		/**********
-		 * Replace function with your code
-		 **********/
 		for (Sink<CS440Image> subscriber : subscribers) {
 			subscriber.receive(frame);	
 		}
-		
-		counter++;
-		
-		if(counter>=50)
-		{
-			close();
-			return false;
-		}
-		
-		boolean shouldStop = displayImage(ot.GetTrackedFrame()); 
-		return 	shouldStop;
-	}
-
-	/**
-	 * This function displays the passed image in a frame.
-	 * @param image The image to be displayed
-	 */
-	public boolean displayImage(CS440Image image)
-	{
-		if(imageViewer == null) //|| !imageViewer.isActive())
-			return false;
-		imageViewer.showImage(image);
 		return true;
 	}
-	
+
 	/***
 	 * Closes the window
 	 */

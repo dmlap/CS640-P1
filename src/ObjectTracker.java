@@ -1,13 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class ObjectTracker implements Sink<ImageMoments>
+public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 {
 	private CS440Image frame;
 	private FrameReceiver receiver;
 	private ResultWindow results;
+	private List<Sink<CS440Image>> subscribers = new ArrayList<Sink<CS440Image>>();
 	
 	public ObjectTracker(ResultWindow window)
 	{
@@ -29,7 +32,10 @@ public class ObjectTracker implements Sink<ImageMoments>
 	{
 		String text = "L1 = " + moment.L1 + ", L2 = " + moment.L2 + ", THETA = " + moment.theta + ", X = " + moment.x + ", Y = " + moment.y;
 		this.results.updateText(text);
-		this.DrawBoundingBox(moment);	
+		this.DrawBoundingBox(moment);
+		for(Sink<CS440Image> subscriber : subscribers) {
+			subscriber.receive(frame);
+		}
 	}
 	
 	public FrameReceiver GetFrameReceiver()
@@ -62,5 +68,10 @@ public class ObjectTracker implements Sink<ImageMoments>
 	public CS440Image GetTrackedFrame()
 	{
 		return frame;
+	}
+
+	@Override
+	public void subscribe(Sink<CS440Image> sink) {
+		subscribers.add(sink);
 	}
 }
