@@ -1,5 +1,5 @@
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
@@ -42,7 +42,7 @@ public class ObjectTracker implements Sink<ImageMoments>
 		// Set bounding box
 		Color c = new Color(255, 255, 255);
 		BufferedImage img = frame.getRawImage();
-		Graphics g = img.createGraphics();
+		Graphics2D g = img.createGraphics();
 		g.setColor(c);
 		g.draw3DRect(150, 150, 40, 40, true);
 		//g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
