@@ -24,8 +24,8 @@ public class CS440Hw1 {
 			ExtVideoSource evs = new ExtVideoSource();
 			evs.setup(dvs,500);
 			
-			ExtVideoSource tdevs = new ExtVideoSource();
-			tdevs.setup(tdvs, 500);
+			//ExtVideoSource tdevs = new ExtVideoSource();
+			//tdevs.setup(tdvs, 500);
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
