@@ -5,7 +5,7 @@
  * @author dml
  * 
  */
-public interface ImageSource {
+public interface ImageSource<T> {
 
 	/**
 	 * Register <code>sink</code> to be notified via
@@ -15,5 +15,5 @@ public interface ImageSource {
 	 * @param sink
 	 *            - the subscribing {@link ImageSink}
 	 */
-	void subscribe(ImageSink sink);
+	void subscribe(ImageSink<T> sink);
 }
