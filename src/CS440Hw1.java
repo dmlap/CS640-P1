@@ -12,7 +12,7 @@ public class CS440Hw1 {
 
 		try
 		{
-			
+
 			VideoSink dvs = new VideoSink();
 
 			//Initialize VideoSource
