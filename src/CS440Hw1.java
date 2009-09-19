@@ -19,14 +19,14 @@ public class CS440Hw1 {
 			ExtVideoSource evs = new ExtVideoSource();
 			evs.setup(dvs,500);			
 
-			//start grab
-			evs.run();
-			
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
 
+			dvs.subscribe(tdp);
 			tdp.subscribe(img);
-			
+
+			//start grab
+			evs.run();
 		}
 		catch(Exception e){
 			e.printStackTrace();

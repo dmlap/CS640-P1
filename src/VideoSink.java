@@ -1,5 +1,7 @@
 import java.awt.Image;
 import java.awt.image.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /***********
@@ -12,10 +14,11 @@ import java.awt.image.*;
  **********/
 public class VideoSink implements ImageSink {
 
-	TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(); 
+	//subscribers
+	private List<ImageSink> subscribers = new ArrayList<ImageSink>(1);
 	
 	//The window to display images
-	ImageViewer imageViewer;
+	ImageViewer imageViewer;	
 	
 	//Simple counter for video cutoff
 	long counter;
@@ -32,9 +35,12 @@ public class VideoSink implements ImageSink {
 	 */
 	@Override
 	public void receive(CS440Image frame) {
-		//processor.receive(frame);		
 	}
 
+	public void subscribe(ImageSink sink) {
+		subscribers.add(sink);
+	}
+	
 	/* (non-Javadoc)
 	 * @see ImageSink#receiveFrame(CS440Image)
 	 */
@@ -43,7 +49,9 @@ public class VideoSink implements ImageSink {
 		/**********
 		 * Replace function with your code
 		 **********/
-		tdp.receive(frame);		
+		for (ImageSink subscriber : subscribers) {
+			subscriber.receive(frame);	
+		}
 		
 		counter++;
 		

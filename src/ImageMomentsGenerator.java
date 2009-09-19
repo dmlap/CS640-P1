@@ -49,6 +49,7 @@ public class ImageMomentsGenerator implements ImageSink {
 	
 	@Override
 	public void receive(CS440Image frame) {
+		System.out.println("ImageMomentsGenerator receiving..");
 		momentsgenerator(frame);
 	}
 
@@ -95,6 +96,7 @@ public class ImageMomentsGenerator implements ImageSink {
 		moments.x  = this.x;
 		moments.y  = this.y;
 		
+		System.out.println("theta: " + this.theta);
 		return moments;	
 		
 	}
