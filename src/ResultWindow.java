@@ -6,6 +6,7 @@ import javax.swing.SwingWorker;
  * @author  
  */
 public class ResultWindow extends JFrame {
+	private static final long serialVersionUID = 7634479643323861331L;
 	private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea output;   
     
