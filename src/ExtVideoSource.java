@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 //added:
 import java.io.*;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -32,7 +33,9 @@ class ExtVideoSource implements VideoSource {
 			/* justin's code */
 			int count = 0;
 			int max = 5;
-			String ImagePath = "C:/";
+			File dir = new File("images");
+			dir.mkdirs();
+			String imagePath = "image";
 			while(count < max) {
 				BufferedImage bi = grabFrame();
 				if(!videoSink.receiveFrame(new CS440Image(bi))) {
@@ -41,7 +44,7 @@ class ExtVideoSource implements VideoSource {
 					break;
 				}
 				else {
-					File output = new File(ImagePath+count+".jpg");
+					File output = new File(dir, imagePath+count+".jpg");
 					count++;
 					try { ImageIO.write(bi, "JPG", output); } 
 					catch (IOException e) { e.printStackTrace(); }
