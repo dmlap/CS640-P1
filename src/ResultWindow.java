@@ -1,11 +1,11 @@
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
 
 /**
  *
  * @author  
  */
-public class ResultWindow extends JFrame {
+public class ResultWindow extends JFrame 
+{
 	private static final long serialVersionUID = 7634479643323861331L;
 	private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea output;   
@@ -55,37 +55,6 @@ public class ResultWindow extends JFrame {
 
         pack();
     }
-    
-    SwingWorker<String, Void> worker = new SwingWorker<String,Void>() {
-    	int i=0;	 
-    	
-    	//This method automatically gets executed in a background thread
-    	public String doInBackground() {
-    		// System.out.println("worker");
-    		try {
-    			output.setText("connection");
-    			output.append("\n");
-    			
-    			while(i<10)
-    			{
-    				output.append("testing");	
-    				output.append("\n");
-    				i++;
-    			}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-      		   
-      		   	return null;
-      	   }
-      	 
-    		//This methods automatically gets executed in the EDT
-      	   	public void done() {
-      		 
-
-      	   	}
-    };
     
     public void updateText(String text)
 	   	{
