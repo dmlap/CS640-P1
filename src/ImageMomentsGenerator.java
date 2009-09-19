@@ -41,6 +41,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
      * of the {@link CS440Image image} being processed.
      */
 	private int L1 = 0, L2 = 0;
+
+	/**
+     * 
+     *Variables to store the bounding box of the object in 
+     *the {@link CS440Image image} being processed.
+     */
+	private int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 	
 	/**
 	 * The {@link Sink} subscribers to this
@@ -75,6 +82,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 				Color pixelint = new Color (image.getRGB(w, h));
 				int intensity = min(min(pixelint.getRed(), 1)+ min(pixelint.getBlue(), 1)+ min(pixelint.getGreen(), 1), 1);
 				
+				if(intensity != 0) {
+					x1 = min(x1, w);
+					x2 = max(x2, w);
+					y1 = min(y1, h);
+					y2 = max(y2, h);
+				}
+				
 				M00 += intensity;
 				M10 += w * intensity;
 				M01 += h * intensity;
@@ -104,6 +118,10 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		moments.L2 = this.L2;
 		moments.x  = this.x;
 		moments.y  = this.y;
+		moments.x1 = this.x1;
+		moments.x2 = this.x2;
+		moments.y1 = this.y1;
+		moments.y2 = this.y2;
 		
 		// notify subscribers
 		for (Sink<ImageMoments> subscriber : subscribers) {
