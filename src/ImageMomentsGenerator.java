@@ -125,7 +125,7 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		moments.x2 = this.x2;
 		moments.y1 = this.y1;
 		moments.y2 = this.y2;
-		moments.M[] = {M00, M10, M01, M11, M20, M02};
+		moments.M = new int[] {M00, M10, M01, M11, M20, M02};
 		
 		// notify subscribers
 		for (Sink<ImageMoments> subscriber : subscribers) {
