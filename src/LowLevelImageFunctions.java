@@ -6,11 +6,12 @@
  *
  */
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.color.ColorSpace;
-import java.awt.image.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
 
 /**
  * 

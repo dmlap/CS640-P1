@@ -1,5 +1,5 @@
-import java.awt.Image;
-import java.awt.image.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /***********
@@ -10,12 +10,13 @@ import java.awt.image.*;
  * 
  * @author Sam Epstein
  **********/
-public class VideoSink implements ImageSink {
+public class VideoSink implements Sink<CS440Image> {
 
-	TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(); 
+	//subscribers
+	private List<Sink<CS440Image>> subscribers = new ArrayList<Sink<CS440Image>>(1);
 	
 	//The window to display images
-	ImageViewer imageViewer;
+	ImageViewer imageViewer;	
 	
 	//Simple counter for video cutoff
 	long counter;
@@ -32,18 +33,23 @@ public class VideoSink implements ImageSink {
 	 */
 	@Override
 	public void receive(CS440Image frame) {
-		//processor.receive(frame);		
 	}
 
+	public void subscribe(Sink<CS440Image> sink) {
+		subscribers.add(sink);
+	}
+	
 	/* (non-Javadoc)
 	 * @see ImageSink#receiveFrame(CS440Image)
 	 */
-	public boolean receiveFrame(CS440Image frame) {
+	public boolean receiveFrame(CS440Image frame, ObjectTracker ot) {
 	
 		/**********
 		 * Replace function with your code
 		 **********/
-		tdp.receive(frame);		
+		for (Sink<CS440Image> subscriber : subscribers) {
+			subscriber.receive(frame);	
+		}
 		
 		counter++;
 		
@@ -53,7 +59,7 @@ public class VideoSink implements ImageSink {
 			return false;
 		}
 		
-		boolean shouldStop = displayImage(frame); 
+		boolean shouldStop = displayImage(ot.GetTrackedFrame()); 
 		return 	shouldStop;
 	}
 
@@ -63,7 +69,7 @@ public class VideoSink implements ImageSink {
 	 */
 	public boolean displayImage(CS440Image image)
 	{
-		if(imageViewer == null || !imageViewer.isActive())
+		if(imageViewer == null) //|| !imageViewer.isActive())
 			return false;
 		imageViewer.showImage(image);
 		return true;

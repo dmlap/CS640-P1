@@ -31,6 +31,6 @@ public interface VideoSource {
 	 * Begin feeding {@link CS440Image CS440Images} to the {@link VideoSink}
 	 * specified by calling {@link #setup(VideoSink)}.
 	 */
-	void run();
+	void run(ObjectTracker ot);
 
 }
