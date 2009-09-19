@@ -15,7 +15,7 @@ import java.util.List;
  * @author Abhinay
  * 
  */
-public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource<ImageMoments> {
+public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMoments> {
 	
     /**
      * 
@@ -43,10 +43,10 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 	private int L1 = 0, L2 = 0;
 	
 	/**
-	 * The {@link ImageSink} subscribers to this
+	 * The {@link Sink} subscribers to this
 	 * {@link ImageMomentsGenerator}.
 	 */
-	private List<ImageSink<ImageMoments>> subscribers = new ArrayList<ImageSink<ImageMoments>>(1);
+	private List<Sink<ImageMoments>> subscribers = new ArrayList<Sink<ImageMoments>>(1);
 	
 	/**
      * 
@@ -106,7 +106,7 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 		moments.y  = this.y;
 		
 		// notify subscribers
-		for (ImageSink<ImageMoments> subscriber : subscribers) {
+		for (Sink<ImageMoments> subscriber : subscribers) {
 			subscriber.receive(moments);
 		}
 		
@@ -115,7 +115,7 @@ public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource
 	}
 
 	@Override
-	public void subscribe(ImageSink<ImageMoments> sink) {
+	public void subscribe(Sink<ImageMoments> sink) {
 		subscribers.add(sink);	
 	}
 }

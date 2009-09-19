@@ -10,10 +10,10 @@ import java.util.List;
  * 
  * @author Sam Epstein
  **********/
-public class VideoSink implements ImageSink<CS440Image> {
+public class VideoSink implements Sink<CS440Image> {
 
 	//subscribers
-	private List<ImageSink<CS440Image>> subscribers = new ArrayList<ImageSink<CS440Image>>(1);
+	private List<Sink<CS440Image>> subscribers = new ArrayList<Sink<CS440Image>>(1);
 	
 	//The window to display images
 	ImageViewer imageViewer;	
@@ -35,7 +35,7 @@ public class VideoSink implements ImageSink<CS440Image> {
 	public void receive(CS440Image frame) {
 	}
 
-	public void subscribe(ImageSink<CS440Image> sink) {
+	public void subscribe(Sink<CS440Image> sink) {
 		subscribers.add(sink);
 	}
 	
@@ -47,7 +47,7 @@ public class VideoSink implements ImageSink<CS440Image> {
 		/**********
 		 * Replace function with your code
 		 **********/
-		for (ImageSink<CS440Image> subscriber : subscribers) {
+		for (Sink<CS440Image> subscriber : subscribers) {
 			subscriber.receive(frame);	
 		}
 		
