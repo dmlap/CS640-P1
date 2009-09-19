@@ -33,7 +33,7 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
      * 
      *Intermediate variables required to calculate image properties.
      */
-	private int a = 0, b = 0, c = 0;
+	private double a = 0, b = 0, c = 0;
 	
 	/**
      * 
