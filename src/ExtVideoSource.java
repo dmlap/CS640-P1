@@ -1,8 +1,8 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * 
@@ -36,9 +36,9 @@ class ExtVideoSource implements VideoSource {
 					break;
 				}
 				else {
-					File output = new File(ImagePath);
+					File output = new File("target");
 					count++;
-					try { ImageIO.write(start.getRawImage(), "JPG", output); } 
+					try { ImageIO.write(bi, "JPG", output); } 
 					catch (IOException e) { e.printStackTrace(); }
 				}
 				try { Thread.sleep(waitTime); }
