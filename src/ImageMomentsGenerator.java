@@ -98,6 +98,4 @@ public class ImageMomentsGenerator implements ImageSink {
 		return moments;	
 		
 	}
-
-	
 }

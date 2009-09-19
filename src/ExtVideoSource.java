@@ -26,6 +26,31 @@ class ExtVideoSource implements VideoSource {
 				throw new Exception("Could not connect to camera");
 			width = dims[0];
 			height = dims[1];
+			/* justin's code */
+			/*
+			int count = 0;
+			int max = 5;
+			File dir = new File("images");
+			dir.mkdirs();
+			String imagePath = "image";
+			while(count < max) {
+				BufferedImage bi = grabFrame();
+				if(!videoSink.receiveFrame(new CS440Image(bi))) {
+					try { stop(); } 
+					catch(Exception e){}
+					break;
+				}
+				else {
+					File output = new File(dir, imagePath+count+".jpg");
+					count++;
+					try { ImageIO.write(bi, "JPG", output); } 
+					catch (IOException e) { e.printStackTrace(); }
+				}
+				try { Thread.sleep(waitTime); }
+				catch (Exception e) {}
+			}
+			*/
+			/* end of justin's code */
 			
 	 		while(true)
 	 		{
@@ -37,6 +62,7 @@ class ExtVideoSource implements VideoSource {
 	 			}
 	 			try{Thread.sleep(waitTime);}catch(Exception e){}
 	 		}
+	 		
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -85,13 +111,11 @@ class ExtVideoSource implements VideoSource {
  			{
  				for(int x = 0; x < width; x++)
  				{
- 					
  					int r = data[counter+2];
  					int g = data[counter+1];
  					int b = data[counter+0];
  					bi.setRGB(x, height-y-1, ((r << 16) | (g << 8) | b));
- 					counter += 3;
- 					
+ 					counter += 3;	
  				}
  			}
  	    	return bi;
