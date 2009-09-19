@@ -29,7 +29,7 @@ public class CS440Hw1 {
 			img.subscribe(ot);
 			
 			//start grab
-			evs.run();
+			evs.run(ot);
 		}
 		catch(Exception e){
 			e.printStackTrace();

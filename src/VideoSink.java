@@ -42,7 +42,7 @@ public class VideoSink implements Sink<CS440Image> {
 	/* (non-Javadoc)
 	 * @see ImageSink#receiveFrame(CS440Image)
 	 */
-	public boolean receiveFrame(CS440Image frame) {
+	public boolean receiveFrame(CS440Image frame, ObjectTracker ot) {
 	
 		/**********
 		 * Replace function with your code
@@ -59,7 +59,7 @@ public class VideoSink implements Sink<CS440Image> {
 			return false;
 		}
 		
-		boolean shouldStop = displayImage(frame); 
+		boolean shouldStop = displayImage(ot.GetTrackedFrame()); 
 		return 	shouldStop;
 	}
 

@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  */
 class ExtVideoSource implements VideoSource {
      
-	public void run() {
+	public void run(ObjectTracker ot) {
 
 		try
 		{
@@ -51,7 +51,7 @@ class ExtVideoSource implements VideoSource {
 	 		while(true)
 	 		{
 	 			BufferedImage bi = grabFrame();
-	 			if(!videoSink.receiveFrame(new CS440Image(bi)))
+	 			if(!videoSink.receiveFrame(new CS440Image(bi), ot))
 	 			{
 	 				try{stop();}catch(Exception e){}
 	 				break;
