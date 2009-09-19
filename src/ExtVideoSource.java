@@ -1,7 +1,10 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
+import java.awt.*;
+import java.awt.image.*;
+import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
+//added:
+import java.io.*;
 import javax.imageio.ImageIO;
 
 /**
@@ -28,7 +31,9 @@ class ExtVideoSource implements VideoSource {
 			height = dims[1];
 			/* justin's code */
 			int count = 0;
-			while(count < 5) {
+			int max = 5;
+			String ImagePath = "C:/";
+			while(count < max) {
 				BufferedImage bi = grabFrame();
 				if(!videoSink.receiveFrame(new CS440Image(bi))) {
 					try { stop(); } 
@@ -36,7 +41,7 @@ class ExtVideoSource implements VideoSource {
 					break;
 				}
 				else {
-					File output = new File("target");
+					File output = new File(ImagePath+count+".jpg");
 					count++;
 					try { ImageIO.write(bi, "JPG", output); } 
 					catch (IOException e) { e.printStackTrace(); }
@@ -105,13 +110,11 @@ class ExtVideoSource implements VideoSource {
  			{
  				for(int x = 0; x < width; x++)
  				{
- 					
  					int r = data[counter+2];
  					int g = data[counter+1];
  					int b = data[counter+0];
  					bi.setRGB(x, height-y-1, ((r << 16) | (g << 8) | b));
- 					counter += 3;
- 					
+ 					counter += 3;	
  				}
  			}
  	    	return bi;
