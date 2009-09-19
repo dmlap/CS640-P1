@@ -17,7 +17,7 @@ import java.util.Queue;
  * @author dml
  * 
  */
-public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
+public class TemporalDifferenceProcessor implements ImageSink<CS440Image>, ImageSource<CS440Image> {
 	private static final int MAX_RED = Color.RED.getRed();
 	private static final int MAX_GREEN = Color.GREEN.getGreen();
 	private static final int MAX_BLUE = Color.BLUE.getBlue();
@@ -34,12 +34,12 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	/**
 	 * The {@link ImageSink} to delegate {@link CS440Image} processing to.
 	 */
-	private ImageSink processor = new Loading();
+	private ImageSink<CS440Image> processor = new Loading();
 	/**
 	 * The {@link ImageSink} subscribers to this
 	 * {@link TemporalDifferenceProcessor}.
 	 */
-	private List<ImageSink> subscribers = new ArrayList<ImageSink>(1);
+	private List<ImageSink<CS440Image>> subscribers = new ArrayList<ImageSink<CS440Image>>(1);
 
 	/**
 	 * Load up received {@link CS440Image CS440Images} until the buffer's
@@ -49,7 +49,7 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	 * @author dml
 	 * 
 	 */
-	private class Loading implements ImageSink {
+	private class Loading implements ImageSink<CS440Image> {
 		@Override
 		public void receive(CS440Image frame) {
 			buffer.add(frame);
@@ -71,7 +71,7 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	 * @author dml
 	 * 
 	 */
-	private class BGDiff implements ImageSink {
+	private class BGDiff implements ImageSink<CS440Image> {
 		@Override
 		public void receive(CS440Image frame) {
 			Iterator<CS440Image> itr = buffer.iterator();
@@ -97,7 +97,7 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 			buffer.add(frame);
 			buffer.remove();
 			// notify subscribers
-			for (ImageSink subscriber : subscribers) {
+			for (ImageSink<CS440Image> subscriber : subscribers) {
 				subscriber.receive(new CS440Image(result));
 			}
 		}
@@ -120,7 +120,7 @@ public class TemporalDifferenceProcessor implements ImageSink, ImageSource {
 	 * @see ImageSource#subscribe(ImageSink)
 	 */
 	@Override
-	public void subscribe(ImageSink sink) {
+	public void subscribe(ImageSink<CS440Image> sink) {
 		subscribers.add(sink);
 	}
 

@@ -3,6 +3,8 @@ import static java.lang.Math.*;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link CS440Image} processor that considers the {@link CS440Image image}
@@ -13,7 +15,7 @@ import java.awt.image.BufferedImage;
  * @author Abhinay
  * 
  */
-public class ImageMomentsGenerator implements ImageSink {
+public class ImageMomentsGenerator implements ImageSink<CS440Image>, ImageSource<ImageMoments> {
 	
     /**
      * 
@@ -41,6 +43,12 @@ public class ImageMomentsGenerator implements ImageSink {
 	private int L1 = 0, L2 = 0;
 	
 	/**
+	 * The {@link ImageSink} subscribers to this
+	 * {@link ImageMomentsGenerator}.
+	 */
+	private List<ImageSink<ImageMoments>> subscribers = new ArrayList<ImageSink<ImageMoments>>(1);
+	
+	/**
      * 
      *Variable to store the orientation of the rectangle with similar moments as those
      * of the {@link CS440Image image} being processed.
@@ -49,7 +57,6 @@ public class ImageMomentsGenerator implements ImageSink {
 	
 	@Override
 	public void receive(CS440Image frame) {
-		System.out.println("ImageMomentsGenerator receiving..");
 		momentsgenerator(frame);
 	}
 
@@ -58,8 +65,10 @@ public class ImageMomentsGenerator implements ImageSink {
      * 
      *Method that computes image moments and returns an 
      *{@link ImageMoments} class with the results.
+	 * @return 
+	 * @return 
      */
-	public ImageMoments momentsgenerator(CS440Image frame){
+	public void momentsgenerator(CS440Image frame){
 		BufferedImage image = frame.getRawImage();
 		for(int w = 0; w < image.getWidth(); w++) {
 			for (int h = 0; h < image.getHeight(); h++) {
@@ -96,8 +105,17 @@ public class ImageMomentsGenerator implements ImageSink {
 		moments.x  = this.x;
 		moments.y  = this.y;
 		
-		System.out.println("theta: " + this.theta);
-		return moments;	
+		// notify subscribers
+		for (ImageSink<ImageMoments> subscriber : subscribers) {
+			subscriber.receive(moments);
+		}
 		
+		
+		
+	}
+
+	@Override
+	public void subscribe(ImageSink<ImageMoments> sink) {
+		subscribers.add(sink);	
 	}
 }

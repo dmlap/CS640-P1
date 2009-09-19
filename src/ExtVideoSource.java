@@ -1,8 +1,4 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.image.BufferedImage;
 
 /**
  * 
@@ -73,7 +69,6 @@ class ExtVideoSource implements VideoSource {
      private native int[] getPic();
      private native void stop();
      
-     private boolean stop=true;
      private int width;
      private int height;
      

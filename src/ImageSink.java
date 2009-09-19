@@ -5,7 +5,7 @@
  * @author dml
  * 
  */
-public interface ImageSink {
+public interface ImageSink<T> {
 
 	/**
 	 * Notify this {@link ImageSink} of a new {@link CS440Image}.
@@ -13,6 +13,5 @@ public interface ImageSink {
 	 * @param frame
 	 *            - the new {@link CS440Image}
 	 */
-	void receive(CS440Image frame);
-
+	void receive(T U);
 }

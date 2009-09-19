@@ -1,5 +1,3 @@
-import java.awt.Image;
-import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +10,10 @@ import java.util.List;
  * 
  * @author Sam Epstein
  **********/
-public class VideoSink implements ImageSink {
+public class VideoSink implements ImageSink<CS440Image> {
 
 	//subscribers
-	private List<ImageSink> subscribers = new ArrayList<ImageSink>(1);
+	private List<ImageSink<CS440Image>> subscribers = new ArrayList<ImageSink<CS440Image>>(1);
 	
 	//The window to display images
 	ImageViewer imageViewer;	
@@ -37,7 +35,7 @@ public class VideoSink implements ImageSink {
 	public void receive(CS440Image frame) {
 	}
 
-	public void subscribe(ImageSink sink) {
+	public void subscribe(ImageSink<CS440Image> sink) {
 		subscribers.add(sink);
 	}
 	
@@ -49,7 +47,7 @@ public class VideoSink implements ImageSink {
 		/**********
 		 * Replace function with your code
 		 **********/
-		for (ImageSink subscriber : subscribers) {
+		for (ImageSink<CS440Image> subscriber : subscribers) {
 			subscriber.receive(frame);	
 		}
 		
