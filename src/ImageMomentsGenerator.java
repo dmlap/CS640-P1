@@ -98,8 +98,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 				M02 += h * h * intensity;
 				
 			}
-		}
+		}	
 		
+
+
+		if(M00 == 0) 
+			M00 = 1;  
+
 		x = M10/M00;
 		y = M01/M00;
 		
@@ -121,13 +126,12 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		moments.x2 = this.x2;
 		moments.y1 = this.y1;
 		moments.y2 = this.y2;
+		moments.M[] = {M00, M10, M01, M11, M20, M02};
 		
 		// notify subscribers
 		for (Sink<ImageMoments> subscriber : subscribers) {
 			subscriber.receive(moments);
-		}
-		
-		
+		}	
 		
 	}
 
