@@ -15,16 +15,12 @@ public class VideoSink implements Sink<CS440Image>, Source<CS440Image> {
 	//subscribers
 	private List<Sink<CS440Image>> subscribers = new ArrayList<Sink<CS440Image>>(1);
 	
-	//The window to display images
-	ImageViewer imageViewer;	
-	
 	//Simple counter for video cutoff
 	long counter;
 	
 	//The constructor initializes the window for display
 	VideoSink()
 	{
-		imageViewer=new ImageViewer("Image Viewer");
 		counter = 0;
 	}
 	
@@ -58,11 +54,6 @@ public class VideoSink implements Sink<CS440Image>, Source<CS440Image> {
 	 */
 	public void close()
 	{
-		if(imageViewer!=null)
-		{
-			this.imageViewer.dispose();
-			imageViewer=null;
-		}
 	}
 
 }

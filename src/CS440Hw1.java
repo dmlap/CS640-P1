@@ -16,7 +16,6 @@ public class CS440Hw1 {
 			results.setVisible(true);
 
 			VideoSink dvs = new VideoSink();
-			VideoSink tdvs = new VideoSink();
 			ImageViewer viewer = new ImageViewer();
 			ImageViewer diffViewer = new ImageViewer();
 
@@ -24,9 +23,6 @@ public class CS440Hw1 {
 			ExtVideoSource evs = new ExtVideoSource();
 			evs.setup(dvs,500);
 			
-			//ExtVideoSource tdevs = new ExtVideoSource();
-			//tdevs.setup(tdvs, 500);
-
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
 			ObjectTracker ot = new ObjectTracker(results);
@@ -40,6 +36,9 @@ public class CS440Hw1 {
 			
 			//start grab
 			evs.run(ot);
+			
+			viewer.dispose();
+			diffViewer.dispose();
 		}
 		catch(Exception e){
 			e.printStackTrace();
