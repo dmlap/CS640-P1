@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * @author Abhinay
  * 
  */
-public class ImageMomentsGenerator {
+public class ImageMomentsGenerator implements ImageSink {
 	
     /**
      * 
@@ -47,22 +47,19 @@ public class ImageMomentsGenerator {
      */
 	private double theta;
 	
-	private BufferedImage image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
-	
-	/**
-     * 
-     *Receives the image to be processed.
-     */
-	public void receive(BufferedImage image) {
-		this.image = image;
+	@Override
+	public void receive(CS440Image frame) {
+		momentsgenerator(frame);
 	}
+
 	
 	/**
      * 
      *Method that computes image moments and returns an 
      *{@link ImageMoments} class with the results.
      */
-	public ImageMoments momentsgenerator(){
+	public ImageMoments momentsgenerator(CS440Image frame){
+		BufferedImage image = frame.getRawImage();
 		for(int w = 0; w < image.getWidth(); w++) {
 			for (int h = 0; h < image.getHeight(); h++) {
 				Color pixelint = new Color (image.getRGB(w, h));
@@ -101,5 +98,6 @@ public class ImageMomentsGenerator {
 		return moments;	
 		
 	}
+
 	
 }
