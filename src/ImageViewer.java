@@ -24,7 +24,6 @@ public class ImageViewer extends JFrame implements WindowListener {
 	 * @author Sam Epsetin, Rui Li
 	 *
 	 */
-	@SuppressWarnings("serial")
 	private class IPanel extends JLabel  {
 		private Image img = null;
 		  	public int xOff = 0;
