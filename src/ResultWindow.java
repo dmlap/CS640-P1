@@ -43,7 +43,7 @@ public class ResultWindow extends JFrame
                         .addGap(161, 161, 161)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
-        
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
