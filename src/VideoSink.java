@@ -51,13 +51,13 @@ public class VideoSink implements Sink<CS440Image> {
 			subscriber.receive(frame);	
 		}
 		
-		counter++;
+		/*counter++;
 		
 		if(counter>=50)
 		{
 			close();
 			return false;
-		}
+		}*/
 		
 		boolean shouldStop = displayImage(ot.GetTrackedFrame()); 
 		return 	shouldStop;

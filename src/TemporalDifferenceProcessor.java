@@ -114,7 +114,6 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 	 */
 	@Override
 	public void receive(CS440Image frame) {
-		System.out.println("Temporal Difference Receiving...");
 		processor.receive(frame);
 	}
 
