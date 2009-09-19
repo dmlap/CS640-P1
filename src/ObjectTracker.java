@@ -44,7 +44,8 @@ public class ObjectTracker implements Sink<ImageMoments>
 		BufferedImage img = frame.getRawImage();
 		Graphics g = img.createGraphics();
 		g.setColor(c);
-		g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
+		g.draw3DRect(150, 150, 40, 40, true);
+		//g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
 		
 		//frame.getRawImage().createGraphics().draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
 		
