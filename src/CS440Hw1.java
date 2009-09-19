@@ -26,7 +26,7 @@ public class CS440Hw1 {
 			tdevs.setup(tdvs, 500);
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
-			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
+			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(tdvs);
 			ObjectTracker ot = new ObjectTracker(results);
 			
 			dvs.subscribe(tdp);
