@@ -21,7 +21,8 @@ public class CS440Hw1 {
 
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
-			ObjectTracker ot = new ObjectTracker();
+			ResultWindow results = new ResultWindow();
+			ObjectTracker ot = new ObjectTracker(results);
 
 			dvs.subscribe(tdp);
 			dvs.subscribe(ot.GetFrameReceiver());
