@@ -103,7 +103,8 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 			}
 			
 			// Show image
-			output.displayImage(new CS440Image(result));
+			//if (result != null)
+				//output.displayImage(new CS440Image(result));
 		}
 	}
 
