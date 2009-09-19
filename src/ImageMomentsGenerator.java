@@ -16,51 +16,12 @@ import java.util.List;
  * 
  */
 public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMoments> {
-	
-    /**
-     * 
-     * Variables to store the first and second order moments.
-     */
-	private int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
-	
-	/**
-     * 
-     * Variables to store the centroid location.
-     */
-	private int x = 0, y = 0; 
-	
-	/**
-     * 
-     *Intermediate variables required to calculate image properties.
-     */
-	private double a = 0, b = 0, c = 0;
-	
-	/**
-     * 
-     *Variables to store the Length and Breadth of the rectangle with similar moments as those
-     * of the {@link CS440Image image} being processed.
-     */
-	private int L1 = 0, L2 = 0;
-
-	/**
-     * 
-     *Variables to store the bounding box of the object in 
-     *the {@link CS440Image image} being processed.
-     */
-	private int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-	
+		
 	/**
 	 * The {@link Sink} subscribers to this
 	 * {@link ImageMomentsGenerator}.
 	 */
 	private List<Sink<ImageMoments>> subscribers = new ArrayList<Sink<ImageMoments>>(1);
-	
-	/**
-     * 
-     *Variable to store the orientation of the rectangle with similar moments as those
-     * of the {@link CS440Image image} being processed.
-     */
-	private double theta;
 	
 	@Override
 	public void receive(CS440Image frame) {
@@ -76,6 +37,46 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	 * @return 
      */
 	public void momentsgenerator(CS440Image frame){
+		
+		/**
+	     * 
+	     * Variables to store the first and second order moments.
+	     */
+		int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
+		
+		/**
+	     * 
+	     * Variables to store the centroid location.
+	     */
+		int x = 0, y = 0; 
+		
+		/**
+	     * 
+	     *Intermediate variables required to calculate image properties.
+	     */
+		double a = 0, b = 0, c = 0;
+		
+		/**
+	     * 
+	     *Variables to store the Length and Breadth of the rectangle with similar moments as those
+	     * of the {@link CS440Image image} being processed.
+	     */
+		int L1 = 0, L2 = 0;
+
+		/**
+	     * 
+	     *Variables to store the bounding box of the object in 
+	     *the {@link CS440Image image} being processed.
+	     */
+		int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+		
+		/**
+	     * 
+	     *Variable to store the orientation of the rectangle with similar moments as those
+	     * of the {@link CS440Image image} being processed.
+	     */
+		double theta;
+		
 		BufferedImage image = frame.getRawImage();
 		for(int w = 0; w < image.getWidth(); w++) {
 			for (int h = 0; h < image.getHeight(); h++) {
@@ -111,15 +112,15 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		L2 = (int)Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
 		
 		ImageMoments moments = new ImageMoments();
-		moments.theta = this.theta;
-		moments.L1 = this.L1;
-		moments.L2 = this.L2;
-		moments.x  = this.x;
-		moments.y  = this.y;
-		moments.x1 = this.x1;
-		moments.x2 = this.x2;
-		moments.y1 = this.y1;
-		moments.y2 = this.y2;
+		moments.theta = theta;
+		moments.L1 = L1;
+		moments.L2 = L2;
+		moments.x  = x;
+		moments.y  = y;
+		moments.x1 = x1;
+		moments.x2 = x2;
+		moments.y1 = y1;
+		moments.y2 = y2;
 		
 		// notify subscribers
 		for (Sink<ImageMoments> subscriber : subscribers) {

@@ -1,5 +1,5 @@
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
@@ -42,14 +42,12 @@ public class ObjectTracker implements Sink<ImageMoments>
 		// Set bounding box
 		Color c = new Color(255, 255, 255);
 		BufferedImage img = frame.getRawImage();
-		Graphics g = img.createGraphics();
+		Graphics2D g = img.createGraphics();
 		g.setColor(c);
 		g.draw3DRect(150, 150, 40, 40, true);
 		//g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
 		
-		//frame.getRawImage().createGraphics().draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
-		
-		/*Pair<Integer, Integer> centroid = new Pair<Integer, Integer>(moment.x, moment.y);
+		Pair<Integer, Integer> centroid = new Pair<Integer, Integer>(moment.x, moment.y);
 		
 		int bottomx = ((centroid.getFirst() + moment.L1) > frame.height()) ? frame.height() : centroid.getFirst() + moment.L1;
 		int topx = ((centroid.getFirst() - moment.L1) < 0) ? 0 : centroid.getFirst() - moment.L1;
@@ -58,25 +56,7 @@ public class ObjectTracker implements Sink<ImageMoments>
 		
 		results.updateText("Bounding Box");
 		results.updateText("Top X: " + topx + ", Bottom X: " + bottomx + ", Left Y:" + lefty + ", Right Y:" + righty);
-		
-		// Draw box
-		for (int i = 0; i <= (moment.L2 * 2); i++)
-		{
-			if ((lefty + i) > frame.width())
-				break;
-			
-			frame.set(topx, lefty + i, box);
-			frame.set(bottomx, lefty + i, box);
-		}
-		
-		for (int i = 0; i < (moment.L1 * 2); i++)
-		{
-			if ((topx + i) > frame.height())
-				break;
-			
-			frame.set(topx + i, lefty, box);
-			frame.set(topx + i, righty, box);
-		}*/
+
 	}
 	
 	public CS440Image GetTrackedFrame()
