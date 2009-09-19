@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  */
 class ExtVideoSource implements VideoSource {
      
-	public void run(ObjectTracker ot) {
+	public void run(ObjectTracker ot, ResultWindow results) {
 
 		try
 		{
