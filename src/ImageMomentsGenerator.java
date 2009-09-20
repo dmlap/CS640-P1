@@ -39,13 +39,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	     * 
 	     * Variables to store the first and second order moments.
 	     */
-		int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
+		double M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
 		
 		/**
 	     * 
 	     * Variables to store the centroid location.
 	     */
-		int x = 0, y = 0; 
+		double x = 0, y = 0; 
 		
 		/**
 	     * 
@@ -58,14 +58,14 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	     *Variables to store the Length and Breadth of the rectangle with similar moments as those
 	     * of the {@link CS440Image image} being processed.
 	     */
-		int L1 = 0, L2 = 0;
+		double L1 = 0, L2 = 0;
 
 		/**
 	     * 
 	     *Variables to store the bounding box of the object in 
 	     *the {@link CS440Image image} being processed.
 	     */
-		int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
 		/**
 	     * 
@@ -100,22 +100,17 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 
 
 		double m00 = M00 == 0 ? (double) M00 : 1.0D;
-		double m01 = (double) M01;
-		double m02 = (double) M02;
-		double m10 = (double) M10;
-		double m11 = (double) M11;
-		double m20 = (double) M20;
 
-		x = (int) Math.round(m10/m00);
-		y = (int) Math.round(m01/m00);
+		x = (int) Math.round(M10/m00);
+		y = (int) Math.round(M01/m00);
 		
-		a = (m20/m00) - (x * x);
-		b = 2 * ((m11/m00) - x*y);
-		c = (m02/m00) - (y * y);
+		a = (M20/m00) - (x * x);
+		b = 2 * ((M11/m00) - x*y);
+		c = (M02/m00) - (y * y);
 		
 		theta = atan(b/(a-c)) / 2;
-		L1 = (int)Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
-		L2 = (int)Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L1 = Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L2 = Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
 		
 		ImageMoments moments = new ImageMoments();
 		moments.theta = theta;

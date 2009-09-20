@@ -8,6 +8,12 @@ import java.util.List;
 import org.junit.Test;
 
 public class ImageMomentTest {
+	private double delta = 0.001;
+	
+	private void assertCloseTo(double expected, double found) {
+		assertTrue("expected: " + expected + ", found: " + found,
+				found < (expected + delta) && found > (expected - delta));
+	}
 
 	@Test
 	public void calc() {
@@ -25,15 +31,15 @@ public class ImageMomentTest {
 		img.receive(new CS440Image(i));
 		assertEquals(1, ims.size());
 		ImageMoments im = ims.get(0);
-		assertEquals(2, im.m00);
-		assertEquals(1, im.m01);
-		assertEquals(1, im.m02);
-		assertEquals(1, im.m10);
-		assertEquals(1, im.m11);
-		assertEquals(1, im.m20);
-		assertTrue("expected x = 0.5, found: " + im.x, im.x > 0.49D && im.x < 0.51D);
-		assertTrue("expected y = 0.5, found: " + im.y, im.y > 0.49D && im.y < 0.51D);
-		assertTrue("expected L1 = 2.45, found: " + im.L1, im.L1 > 2.44D && im.L1 < 2.46D);
-		assertTrue("expected L2 = 0, found: " + im.L2, im.L2 > -0.1D && im.L2 < 0.1D);
+		assertCloseTo(2.0D, im.m00);
+		assertCloseTo(1.0D, im.m01);
+		assertCloseTo(1.0D, im.m02);
+		assertCloseTo(1.0D, im.m10);
+		assertCloseTo(1.0D, im.m11);
+		assertCloseTo(1.0D, im.m20);
+		assertCloseTo(0.5D, im.x);
+		assertCloseTo(0.5D, im.y);
+		assertCloseTo(2.45D, im.L1);
+		assertCloseTo(0D, im.L2);
 	}
 }
