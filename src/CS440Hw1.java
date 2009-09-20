@@ -12,21 +12,30 @@ public class CS440Hw1 {
 
 		try
 		{
-			
+			ResultWindow results = new ResultWindow();
+			results.setVisible(true);
+
 			VideoSink dvs = new VideoSink();
+			VideoSink tdvs = new VideoSink();
 
 			//Initialize VideoSource
 			ExtVideoSource evs = new ExtVideoSource();
-			evs.setup(dvs,500);			
-
-			//start grab
-			evs.run();
+			evs.setup(dvs,500);
 			
+			ExtVideoSource tdevs = new ExtVideoSource();
+			tdevs.setup(tdvs, 500);
+
 			ImageMomentsGenerator img = new ImageMomentsGenerator();
-			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
-
-			tdp.subscribe(img);
+			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor(tdvs);
+			ObjectTracker ot = new ObjectTracker(results);
 			
+			dvs.subscribe(tdp);
+			dvs.subscribe(ot.GetFrameReceiver());
+			tdp.subscribe(img);
+			img.subscribe(ot);
+			
+			//start grab
+			evs.run(ot);
 		}
 		catch(Exception e){
 			e.printStackTrace();

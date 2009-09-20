@@ -42,13 +42,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	     * 
 	     * Variables to store the first and second order moments.
 	     */
-		private int M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
+		private double M00 = 0, M01 = 0, M10 = 0, M11 = 0, M20 = 0, M02 = 0;
 		
 		/**
 	     * 
 	     * Variables to store the centroid location.
 	     */
-		private int x = 0, y = 0; 
+		private double x = 0, y = 0; 
 		
 		/**
 	     * 
@@ -61,14 +61,14 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	     *Variables to store the Length and Breadth of the rectangle with similar moments as those
 	     * of the {@link CS440Image image} being processed.
 	     */
-		private int L1 = 0, L2 = 0;
+		private double L1 = 0, L2 = 0;
 
 		/**
 	     * 
 	     *Variables to store the bounding box of the object in 
 	     *the {@link CS440Image image} being processed.
 	     */
-		private int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+		private double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
 		/**
 	     * 
@@ -98,8 +98,13 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 				M02 += h * h * intensity;
 				
 			}
-		}
+		}	
 		
+
+
+		if(M00 == 0) 
+			M00 = 1;  
+
 		x = M10/M00;
 		y = M01/M00;
 		
@@ -108,8 +113,8 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		c = (M02/M00) - (y * y);
 		
 		theta = atan(b/(a-c)) / 2;
-		L1 = (int)Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
-		L2 = (int)Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L1 = Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L2 = Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
 		
 		ImageMoments moments = new ImageMoments();
 		moments.theta = this.theta;
@@ -121,13 +126,12 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		moments.x2 = this.x2;
 		moments.y1 = this.y1;
 		moments.y2 = this.y2;
+		moments.M[] = {M00, M10, M01, M11, M20, M02};
 		
 		// notify subscribers
 		for (Sink<ImageMoments> subscriber : subscribers) {
 			subscriber.receive(moments);
-		}
-		
-		
+		}	
 		
 	}
 

@@ -15,7 +15,11 @@ public class TemporalDiffTest {
 	public void before() {
 		bdp = new TemporalDifferenceProcessor();
 		os = new ArrayList<CS440Image>(4);
+<<<<<<< HEAD:src/TemporalDiffTest.java
 		bdp.subscribe(new ImageSink() {
+=======
+		bdp.subscribe(new Sink<CS440Image>() {
+>>>>>>> 208700793f30897b7c00d645ce6ee60a553f6830:src/TemporalDiffTest.java
 			@Override
 			public void receive(CS440Image frame) {
 				os.add(frame);

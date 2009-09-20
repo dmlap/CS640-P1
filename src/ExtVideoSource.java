@@ -1,8 +1,4 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.image.BufferedImage;
 
 /**
  * 
@@ -17,7 +13,7 @@ import java.util.TimerTask;
  */
 class ExtVideoSource implements VideoSource {
      
-	public void run() {
+	public void run(ObjectTracker ot) {
 
 		try
 		{
@@ -55,7 +51,7 @@ class ExtVideoSource implements VideoSource {
 	 		while(true)
 	 		{
 	 			BufferedImage bi = grabFrame();
-	 			if(!videoSink.receiveFrame(new CS440Image(bi)))
+	 			if(!videoSink.receiveFrame(new CS440Image(bi), ot))
 	 			{
 	 				try{stop();}catch(Exception e){}
 	 				break;
@@ -73,7 +69,6 @@ class ExtVideoSource implements VideoSource {
      private native int[] getPic();
      private native void stop();
      
-     private boolean stop=true;
      private int width;
      private int height;
      
