@@ -31,8 +31,8 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 	public void receive(ImageMoments moment) 
 	{
 		String text = "L1 = " + moment.L1 + ", L2 = " + moment.L2 + ", THETA = " + moment.theta + ", X = " + moment.x 
-			+ ", Y = " + moment.y + ", M00 = " + moment.M[0] + ", M10 = " + moment.M[1] + ", M01 = " + moment.M[2] 
-			+ ", M11 = " + moment.M[3] + ", M20 = " + moment.M[4] + ", M02 = " + moment.M[5];
+			+ ", Y = " + moment.y + ", M00 = " + moment.m00 + ", M10 = " + moment.m10 + ", M01 = " + moment.m01 
+			+ ", M11 = " + moment.m11 + ", M20 = " + moment.m20 + ", M02 = " + moment.m02;
 		this.results.updateText(text);
 		this.DrawBoundingBox(moment);
 		for(Sink<CS440Image> subscriber : subscribers) {
