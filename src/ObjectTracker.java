@@ -30,7 +30,9 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 	@Override
 	public void receive(ImageMoments moment) 
 	{
-		String text = "L1 = " + moment.L1 + ", L2 = " + moment.L2 + ", THETA = " + moment.theta + ", X = " + moment.x + ", Y = " + moment.y;
+		String text = "L1 = " + moment.L1 + ", L2 = " + moment.L2 + ", THETA = " + moment.theta + ", X = " + moment.x 
+			+ ", Y = " + moment.y + ", M00 = " + moment.M[0] + ", M10 = " + moment.M[1] + ", M01 = " + moment.M[2] 
+			+ ", M11 = " + moment.M[3] + ", M20 = " + moment.M[4] + ", M02 = " + moment.M[5];
 		this.results.updateText(text);
 		this.DrawBoundingBox(moment);
 		for(Sink<CS440Image> subscriber : subscribers) {
@@ -50,8 +52,13 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 		BufferedImage img = frame.getRawImage();
 		Graphics2D g = img.createGraphics();
 		g.setColor(c);
-		g.draw3DRect(150, 150, 40, 40, true);
-		//g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
+		
+		long x = Math.round(moment.x * (double)frame.width());
+		long y = Math.round(moment.y * (double)frame.height());
+		long l1 = Math.round(moment.L1);
+		long l2 = Math.round(moment.L2);
+		
+		g.draw3DRect((int)x, (int)y, (int)l1, (int)l2, true);
 	}
 	
 	public CS440Image GetTrackedFrame()
