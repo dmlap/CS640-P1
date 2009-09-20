@@ -49,16 +49,19 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 	{
 		// Set bounding box
 		Color c = new Color(255, 255, 255);
+		
+		int x = ((int)Math.round(moment.x - (moment.L2 / 2)) < 0 ? 0 : (int)Math.round(moment.x - (moment.L2 / 2)));
+		int y = ((int)Math.round(moment.y - (moment.L1 / 2)) < 0 ? 0 : (int)Math.round(moment.y - (moment.L2 / 2)));
+		long l1 = Math.round(moment.L1 / 2);
+		long l2 = Math.round(moment.L2 / 2);
+		
+		frame.set((int)x, (int)y, c);
 		BufferedImage img = frame.getRawImage();
 		Graphics2D g = img.createGraphics();
 		g.setColor(c);
-		
-		long x = Math.round(moment.x * (double)frame.width());
-		long y = Math.round(moment.y * (double)frame.height());
-		long l1 = Math.round(moment.L1);
-		long l2 = Math.round(moment.L2);
-		
-		g.draw3DRect((int)x, (int)y, (int)l1, (int)l2, true);
+				
+		//g.drawRect((int)x, (int)y, (int)l1, (int)l2);
+		g.fillRect((int)x, (int)y, (int)l1, (int)l2);
 	}
 	
 	public CS440Image GetTrackedFrame()

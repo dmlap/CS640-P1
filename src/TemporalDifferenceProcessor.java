@@ -25,7 +25,7 @@ public class TemporalDifferenceProcessor implements Sink<CS440Image>, Source<CS4
 	 * The number of {@link CS440Image CS440Images} to collect in each
 	 * background difference {@link CS440Image}.
 	 */
-	private int window = 5;
+	private int window = 2;
 	/**
 	 * The buffer for holding {@link CS440Image CS440Images} to be processed.
 	 * Its size should never exceed {@link #window}.
