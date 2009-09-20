@@ -99,18 +99,18 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		
 
 
-		double m00 = M00 == 0 ? (double) M00 : 1.0D;
+		double m00 = M00 == 0 ? 1.0D : M00;
 
-		x = (int) Math.round(M10/m00);
-		y = (int) Math.round(M01/m00);
+		x = M10/m00;
+		y = M01/m00;
 		
 		a = (M20/m00) - (x * x);
 		b = 2 * ((M11/m00) - x*y);
 		c = (M02/m00) - (y * y);
 		
 		theta = atan(b/(a-c)) / 2;
-		L1 = Math.floor(Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2)))));
-		L2 = Math.floor(Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2)))));
+		L1 = Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2))));
+		L2 = Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2))));
 		
 		ImageMoments moments = new ImageMoments();
 		moments.theta = theta;
