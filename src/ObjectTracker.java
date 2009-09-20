@@ -52,8 +52,13 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 		BufferedImage img = frame.getRawImage();
 		Graphics2D g = img.createGraphics();
 		g.setColor(c);
-		//g.draw3DRect(150, 150, 40, 40, true);
-		g.draw3DRect(moment.x, moment.y, moment.L1, moment.L2, true);
+		
+		long x = Math.round(moment.x * (double)frame.width());
+		long y = Math.round(moment.y * (double)frame.height());
+		long l1 = Math.round(moment.L1);
+		long l2 = Math.round(moment.L2);
+		
+		g.draw3DRect((int)x, (int)y, (int)l1, (int)l2, true);
 	}
 	
 	public CS440Image GetTrackedFrame()
