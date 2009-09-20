@@ -69,4 +69,46 @@ public class ImageMomentTest {
 		assertCloseTo(0D, im.L1);
 		assertCloseTo(0D, im.L2);
 	}
+	
+	@Test
+	public void big() {
+		BufferedImage i = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+		int w = Color.WHITE.getRGB();
+		i.setRGB(5, 3, w);
+		i.setRGB(5, 4, w);
+		i.setRGB(5, 5, w);
+		i.setRGB(5, 6, w);
+		i.setRGB(5, 7, w);
+
+		i.setRGB(6, 4, w);
+		i.setRGB(6, 5, w);
+		i.setRGB(6, 6, w);
+		i.setRGB(6, 7, w);
+		
+		i.setRGB(7, 5, w);
+		i.setRGB(7, 6, w);
+		i.setRGB(7, 7, w);
+		final List<ImageMoments> ims = new ArrayList<ImageMoments>();
+		ImageMomentsGenerator img = new ImageMomentsGenerator();
+		img.subscribe(new Sink<ImageMoments>() {
+			@Override
+			public void receive(ImageMoments im) {
+				ims.add(im);
+			}
+		});
+		
+		img.receive(new CS440Image(i));
+		assertEquals(1, ims.size());
+		ImageMoments im = ims.get(0);
+		assertCloseTo(12D, im.m00);
+		assertCloseTo(65D, im.m01);
+		assertCloseTo(371D, im.m02);
+		assertCloseTo(70D, im.m10);
+		assertCloseTo(383D, im.m11);
+		assertCloseTo(416D, im.m20);
+		assertCloseTo(5.833D, im.x);
+		assertCloseTo(5.416D, im.y);
+		assertCloseTo(4.483D, im.L1);
+		assertCloseTo(2.5465D, im.L2);
+	}
 }

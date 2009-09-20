@@ -49,12 +49,6 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		
 		/**
 	     * 
-	     *Intermediate variables required to calculate image properties.
-	     */
-		double a = 0, b = 0, c = 0;
-		
-		/**
-	     * 
 	     *Variables to store the Length and Breadth of the rectangle with similar moments as those
 	     * of the {@link CS440Image image} being processed.
 	     */
@@ -99,18 +93,23 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		
 
 
-		double m00 = M00 == 0 ? 1.0D : M00;
+		double m00 = M00 == 0 ? 1 : M00;
 
 		x = M10/m00;
 		y = M01/m00;
 		
-		a = (M20/m00) - (x * x);
-		b = 2 * ((M11/m00) - x*y);
-		c = (M02/m00) - (y * y);
+		double a = (M20/m00) - Math.pow(x, 2);
+		double b = 2 * ((M11/m00) - x*y);
+		double c = (M02/m00) - Math.pow(y, 2);
 		
+		double b2 = Math.pow(b, 2);
+		double aMinusC = a - c;
+		double aPlusC = a + c;
 		theta = atan(b/(a-c)) / 2;
-		L1 = Math.sqrt(6 * (a + c + Math.sqrt(b * b + Math.pow(a - c, 2))));
-		L2 = Math.sqrt(6 * (a + c - Math.sqrt(b * b + Math.pow(a - c, 2))));
+		
+		double intermediate = Math.sqrt(b2 + Math.pow(aMinusC, 2));
+		L1 = Math.sqrt(6 * (aPlusC + intermediate));
+		L2 = Math.sqrt(6 * (aPlusC - intermediate));
 		
 		ImageMoments moments = new ImageMoments();
 		moments.theta = theta;
