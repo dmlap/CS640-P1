@@ -1,5 +1,13 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +48,7 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 		}
 	}
 	
-	public FrameReceiver GetFrameReceiver()
+	public Sink<CS440Image> GetFrameReceiver()
 	{
 		return this.receiver;
 	}
@@ -48,17 +56,24 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 	public void DrawBoundingBox(ImageMoments moment)
 	{
 		// Set bounding box
-		Color c = new Color(255, 255, 255);
-		BufferedImage img = frame.getRawImage();
-		Graphics2D g = img.createGraphics();
-		g.setColor(c);
+		Graphics2D g = frame.getRawImage().createGraphics();
+		g.setColor(Color.WHITE);
 		
-		long x = Math.round(moment.x * (double)frame.width());
-		long y = Math.round(moment.y * (double)frame.height());
-		long l1 = Math.round(moment.L1);
-		long l2 = Math.round(moment.L2);
+		int x = (int) Math.round(moment.x);
+		int y = (int) Math.round(moment.y);
+		int ulx = (int) Math.round(moment.x - (moment.L1 / 2));
+		int uly = (int) Math.round(moment.y - (moment.L2 / 2));
+		int l1 = (int) moment.L1;
+		int l2 = (int) moment.L2;
 		
-		g.draw3DRect((int)x, (int)y, (int)l1, (int)l2, true);
+		g.drawRect(ulx, uly, l1, l2);
+		StringBuilder label = new StringBuilder("(")
+			.append(moment.x)
+			.append(",")
+			.append(moment.y)
+			.append(")");
+		g.drawString(label.toString(), x + 5, y);
+		g.fillOval(x - 2, y - 2, 4, 4);
 	}
 	
 	public CS440Image GetTrackedFrame()

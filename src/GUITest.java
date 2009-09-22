@@ -13,8 +13,8 @@ public class GUITest {
 		ImageMoments im = new ImageMoments();
 		im.L1 = 500;
 		im.L2 = 500;
-		im.x = 50;
-		im.y = 50;
+		im.x = 500;
+		im.y = 500;
 		ot.receive(im);
 		view.showImage(ci);
 		view.repaint();

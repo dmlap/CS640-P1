@@ -110,7 +110,7 @@ public class ImageViewer extends JFrame implements WindowListener, Sink<CS440Ima
 		Image img = image.getRawImage();
 		imageLabel.setImage(img);
 		this.setSize(img.getWidth(null), img.getHeight(null));
-		//imageLabel.repaint();
+//		imageLabel.repaint();
 		
 		this.repaint();
 	}
