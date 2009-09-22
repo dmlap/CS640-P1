@@ -132,7 +132,7 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 		for (Sink<ImageMoments> subscriber : subscribers) {
 			subscriber.receive(moments);
 		}	
-		
+
 	}
 
 	@Override
