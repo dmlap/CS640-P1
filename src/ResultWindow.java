@@ -1,6 +1,9 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -17,12 +20,35 @@ public class ResultWindow extends JFrame implements ActionListener {
 	private JTextArea output;
 	private JButton pause;
 	private boolean isPaused = false;
+	private boolean writeToFile = false;
+	private BufferedWriter writer = null;
 
 	/**
 	 * Constructor
 	 */
-	public ResultWindow() {
+	public ResultWindow(boolean writeToDisk) {
 		initComponents();
+		
+		writeToFile = writeToDisk;
+		if (writeToDisk) {
+			try {
+				writer = new BufferedWriter(new FileWriter("resultOutput.txt", false));
+				writer.write("======== Start Output ========");
+				writer.newLine();
+				writer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					if (writer != null)
+						writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**
@@ -85,6 +111,27 @@ public class ResultWindow extends JFrame implements ActionListener {
 		if (!isPaused) {
 			output.append(text + "\n");
 			output.setCaretPosition(output.getDocument().getLength());
+		}
+		
+		if (writeToFile)
+			this.outputToFile(text);
+	}
+	
+	private void outputToFile(String text) {
+		try {
+			writer = new BufferedWriter(new FileWriter("resultOutput.txt", true));
+			writer.write(text);
+			writer.newLine();
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (IOException e) {
+				// Ignore
+			}
 		}
 	}
 }
