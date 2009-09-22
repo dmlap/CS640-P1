@@ -57,12 +57,23 @@ public class ObjectTracker implements Sink<ImageMoments>, Source<CS440Image>
 		int l2 = (int) moment.L2;
 		
 		g.drawRect(ulx, uly, l1, l2);
-		StringBuilder label = new StringBuilder("(")
+		StringBuilder centroid = new StringBuilder("(")
 			.append(moment.x)
 			.append(",")
 			.append(moment.y)
 			.append(")");
-		g.drawString(label.toString(), x + 5, y);
+		g.drawString(centroid.toString(), x + 5, y);
+		StringBuilder moments = new StringBuilder("m00: ")
+			.append(moment.m00)
+			.append(" m01: ")
+			.append(moment.m01)
+			.append(" m10: ")
+			.append(moment.m10)
+			.append(" m11: ")
+			.append(moment.m11)
+			.append(" m20: ")
+			.append(moment.m20);
+		g.drawString(moments.toString(), 30, 30);
 		g.fillOval(x - 2, y - 2, 4, 4);
 	}
 	
