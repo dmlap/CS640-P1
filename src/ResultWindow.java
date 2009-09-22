@@ -1,4 +1,9 @@
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -6,10 +11,12 @@ import javax.swing.JTextArea;
 /**
  * Class to output text results to a window
  */
-public class ResultWindow extends JFrame {
+public class ResultWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scroller;
 	private JTextArea output;
+	private JButton pause;
+	private boolean isPaused = false;
 
 	/**
 	 * Constructor
@@ -26,9 +33,12 @@ public class ResultWindow extends JFrame {
 	private void initComponents() {
 		scroller = new JScrollPane();
 		output = new JTextArea();
+		pause = new JButton("Pause");
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+		pause.setPreferredSize(new Dimension(200, 80));
+		pause.addActionListener(this);
 		output.setColumns(20);
 		output.setRows(5);
 		scroller.setViewportView(output);
@@ -38,18 +48,32 @@ public class ResultWindow extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				GroupLayout.Alignment.LEADING).addGroup(
 				layout.createSequentialGroup().addGroup(
+						layout.createParallelGroup().addComponent(pause, 
+								GroupLayout.PREFERRED_SIZE, 90, 
+								GroupLayout.PREFERRED_SIZE)).addGroup(
 						layout.createSequentialGroup().addComponent(scroller,
 								GroupLayout.PREFERRED_SIZE, 800,
 								GroupLayout.PREFERRED_SIZE))));
 
 		layout.setVerticalGroup(layout.createParallelGroup(
 				GroupLayout.Alignment.LEADING).addGroup(
-				GroupLayout.Alignment.TRAILING,
+				GroupLayout.Alignment.LEADING,
+				layout.createParallelGroup().addComponent(pause,
+						GroupLayout.PREFERRED_SIZE, 25,
+						GroupLayout.PREFERRED_SIZE)).addGroup(
 				layout.createSequentialGroup().addComponent(scroller,
 						GroupLayout.PREFERRED_SIZE, 400,
 						GroupLayout.PREFERRED_SIZE)));
 
 		pack();
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		this.isPaused = !this.isPaused;
+		if (this.isPaused)
+			this.pause.setText("Continue");
+		else
+			this.pause.setText("Pause");
 	}
 
 	/**
@@ -58,7 +82,9 @@ public class ResultWindow extends JFrame {
 	 * @param text - the text to output
 	 */
 	public void updateText(String text) {
-		output.append(text + "\n");
-		output.setCaretPosition(output.getDocument().getLength());
+		if (!isPaused) {
+			output.append(text + "\n");
+			output.setCaretPosition(output.getDocument().getLength());
+		}
 	}
 }

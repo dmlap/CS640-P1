@@ -10,7 +10,7 @@ import java.util.List;
  * A {@link CS440Image} processor that considers the {@link CS440Image image}
  * as a binary image and generates its image moments and using which computes
  * the desired object's centroid, orientation and length and breadth of a rectangle
- * with the same moments. This class assumes that all images are of 640 x 480 resolution.
+ * with the same moments.
  * 
  * @author Abhinay
  * 
