@@ -12,7 +12,7 @@ public class CS440Hw1 {
 
 		try
 		{
-			ResultWindow results = new ResultWindow(true);
+			ResultWindow results = new ResultWindow(false);
 			results.setVisible(true);
 
 			VideoSink dvs = new VideoSink();
