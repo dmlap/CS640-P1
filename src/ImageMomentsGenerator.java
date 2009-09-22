@@ -16,6 +16,22 @@ import java.util.List;
  * 
  */
 public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMoments> {
+	int threshold;
+	
+	/**
+	 * Default constructor, defaults threshold to 550
+	 */
+	ImageMomentsGenerator() {
+		threshold = 550;
+	}
+	
+	/**
+	 * Constructor to allow threshold value to change
+	 * @param thresholdValue - threshold for intensity
+	 */
+	ImageMomentsGenerator(int thresholdValue) {
+		threshold = thresholdValue;
+	}
 	
 	/**
 	 * The {@link Sink} subscribers to this
@@ -67,12 +83,15 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 	     * of the {@link CS440Image image} being processed.
 	     */
 		double theta;
-
+		
 		BufferedImage image = frame.getRawImage();
 		for(int w = 0; w < image.getWidth(); w++) {
 			for (int h = 0; h < image.getHeight(); h++) {
 				Color pixelint = new Color (image.getRGB(w, h));
-				int intensity = min(min(pixelint.getRed(), 1)+ min(pixelint.getBlue(), 1)+ min(pixelint.getGreen(), 1), 1);
+				//int intensity = min(min(pixelint.getRed(), 1)+ min(pixelint.getBlue(), 1)+ min(pixelint.getGreen(), 1), 1);
+				int intensity = 0;
+				if ((pixelint.getRed() + pixelint.getBlue() + pixelint.getGreen()) >= threshold)
+					intensity = 1;
 				
 				if(intensity != 0) {
 					x1 = min(x1, w);
@@ -86,12 +105,9 @@ public class ImageMomentsGenerator implements Sink<CS440Image>, Source<ImageMome
 				M01 += h * intensity;
 				M11 += w * h * intensity;
 				M20 += w * w * intensity;
-				M02 += h * h * intensity;
-				
+				M02 += h * h * intensity;				
 			}
-		}	
-		
-
+		}
 
 		double m00 = M00 == 0 ? 1 : M00;
 

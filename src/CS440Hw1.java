@@ -23,7 +23,7 @@ public class CS440Hw1 {
 			ExtVideoSource evs = new ExtVideoSource();
 			evs.setup(dvs,33);
 			
-			ImageMomentsGenerator img = new ImageMomentsGenerator();
+			ImageMomentsGenerator img = new ImageMomentsGenerator(550);
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
 			ObjectTracker ot = new ObjectTracker(results);
 			
