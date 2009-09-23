@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 /**
  * Class to output text results to a window
  */
-public class ResultWindow extends JFrame implements ActionListener {
+public class ResultWindow extends JFrame implements ActionListener, Sink<String> {
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scroller;
 	private JTextArea output;
@@ -133,5 +133,10 @@ public class ResultWindow extends JFrame implements ActionListener {
 				// Ignore
 			}
 		}
+	}
+
+	@Override
+	public void receive(String text) {
+		updateText(text);
 	}
 }

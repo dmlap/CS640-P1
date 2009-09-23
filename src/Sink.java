@@ -12,5 +12,5 @@ public interface Sink<T> {
 	 * @param frame
 	 *            - the new <code>T</code>
 	 */
-	void receive(T U);
+	void receive(T t);
 }
