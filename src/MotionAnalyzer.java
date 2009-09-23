@@ -29,7 +29,8 @@ public class MotionAnalyzer implements Sink<ImageMoments>, Source<String> {
 	private static final double DOWN_LEFT = -UP_LEFT;
 
 	/**
-	 * The number of {@link ImageMoments} to average across.
+	 * The number of {@link ImageMoments} to average across. It must be greater
+	 * than or equal to two.
 	 */
 	public int window = 5;
 	/**
