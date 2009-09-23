@@ -1,66 +1,189 @@
 <html>
-<head><title></title></head>
-<body>
-<h1>CS440/640: AI Gesture Recognition</h1>
+<head>
+	<title>CS440/640 Project 1: AI Gesture Recognition</title></head>
+	<style type="text/css">
+		#heading1 {
+			color: #888888;
+			font: bold 2.8em arial, sans-serif;		
+		}
+		#heading2 {
+			color: #555555;
+			font: bold 1.4em arial, sans-serif;		
+		}
+		#heading3 {
+			color: #222;
+			font: bold .85em verdana, sans-serif;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+		}
+		#heading4 {
+			color: #222;
+			font: bold .85em verdana, sans-serif;
+		}		
+		#container {
+			text-align: justify;
+			width: 75%;
+			margin: 0 auto;
+			padding: 1em 2em;
+			background: #FFFFFF;
+			font: .8em "trebuchet ms", arial, sans-serif;
+		}
+		table {
+			font: 1em "trebuchet ms", arial, sans-serif;
+		}
+		table th { 
+			color: #222;
+			text-align: left;
+			font: bold .9em "trebuchet ms", arial, sans-serif;
+		}
+		
+	</style>
+</head>
+<body bgcolor=#222222>
+<div id="container">
+<div id="heading1">CAS CS440/640 Artificial Intelligence - Fall 2009</div>
+<div id="heading2">Project 1: AI Gesture Recognition</div>
 
-Team members:
-<ul><li>
-</li><li>Justin Davis U02433206
-</li><li>Abhinay Evani U25320026
-</li><li>David LaPalomento 
-</li><li>Howell Martinez U64454638 
-</li></ul>
+<br><table width=25%>
+	<tr><td>Justin Davis 
+	</td><td>U02433206
+	</td></tr>
+	<tr><td>Abhinay Evani
+	</td><td>U25320026
+	</td></tr>
+	<tr><td>David LaPalomento
+	</td><td>
+	</td></tr>
+	<tr><td>Howell Martinez
+	</td><td>U64454638
+	</td></tr>
+</table><br><br>
 
-<h3>Problem Definition</h3>
-The goal of this assignment is to design and implement a program that recognizes at least three different gestures of a person in front of a web camera.
+<div id="heading3">Problem Definition</div>
+<p>The goal of this assignment is to design and implement a program that recognizes at least three different gestures of a person in front of a web camera.
 The program is to be fed videos from webcams and at each frame, it should output a score for each gesture that describes how likely a particular gesture is at this time.
+</p><br>
 
-<h3>Method & Implementation</h3>
+<div id="heading3">Recognized Gestures</div>
+<p>Here is a list of our chosen gestures along with a short desciption of each:
+<br><br><table width=50%>
+	<tr><th>Gesture
+	</th><th>Gesture Description
+	</th></tr>
+	<tr><td>Head Shake</a>
+	</td><td>Shaking your head left and right.
+	</td></tr>
+	<tr><td>Gesture 2</a>
+	</td><td>Gesture Description
+	</td></tr>
+	<tr><td>Gesture 3</a>
+	</td><td>Gesture Description
+	</td></tr>
+	
+</table>
+</p><br>
+
+<div id="heading3">Method & Implementation</div>
+<p>The program grabs frames from the webcam and applies temporal differencing and from these processed frames, a binary image is produced. 
+Using image moments, the tracked object's centroid and a rectangle with similar moments are then computed and displayed.
+These values are then compared to the stored values that our predefined gestures produced.
+A comparison of these numbers would then yield a percentage of similarity, thus effectively determining the gesture being done.
+</p>
+Techniques used:
+<p><div id="heading4">Temporal differencing</div>
+blablabla
+<br><br><div id="heading4">Image Moments</div>
+blablabla
+
+</p><br>
+
+<div id="heading3">Assumptions</div>
+<p>
+</p><br>
+
+<div id="heading3">Code</div>
+<p>The following table contains hyperlinks to our code along with a short description of each:
+<br><br>
+<table width=100%>
+	<tr><th width=30%>File Name
+	</th><th>File Description
+	</th></tr>
+	<tr><td><a href="src/CS440Hw1.java">CS440Hw1.java</a>
+	</td><td>Main class for Hw1.
+	</td></tr>
+	<tr><td><a href="src/CS440Image.java">CS440Image.java</a>
+	</td><td>Data type for manipulating individual pixels of an image.
+	</td></tr>
+	<tr><td><a href="src/ExtVideoSource.java">ExtVideoSource.java</a>
+	</td><td>This class represents the video feed.
+	</td></tr>
+	<tr><td><a href="src/ImageMoments.java">ImageMoments.java</a>
+	</td><td>A class that stores the image moments of a CS440Image.
+	</td></tr>
+	<tr><td><a href="src/ImageMomentsGenerator.java">ImageMomentsGenerator.java</a>
+	</td><td>A CS440Image processor that considers the CS440Image image as a binary image and generates image moments and computes the desired object's centroid, orientation and length and breadth of a rectangle with the same moments.
+	</td></tr>
+	<tr><td><a href="src/ImageMomentTest.java">ImageMomentTest.java</a>
+	</td><td>A test bench for ImageMomentsGenerator.java.
+	</td></tr>
+	<tr><td><a href="src/ImageViewer.java">ImageViewer.java</a>
+	</td><td>A window which displays an image.
+	</td></tr>
+	<tr><td><a href="src/LowLevelImageFunctions.java">LowLevelImageFunctions.java</a>
+	</td><td>Defines static methods to manipulate and handle images and pixels. 
+	</td></tr>
+	<tr><td><a href="src/ObjectTracker.java">ObjectTracker.java</a>
+	</td><td>Uses the centroid, breadth and width provided by ImageMoments to create a bounding box on items that are moving.
+	</td></tr>
+	<tr><td><a href="src/ResultWindow.java">ResultWindow.java</a>
+	</td><td>Class to output text results to a window.
+	</td></tr>
+	<tr><td><a href="src/Sink.java">Sink.java</a>
+	</td><td>A generic interface for objects which can be notified of <code>T</code>s.
+	</td></tr>
+	<tr><td><a href="src/Source.java">Source.java</a>
+	</td><td>An object which can notify Sink Sinks of <code>T</code> events.
+	</td></tr>
+	<tr><td><a href="src/TemporalDifferenceProcessor.java">TemporalDifferenceProcessor.java</a>
+	</td><td>A CS440Image processor that produces composite background differences from a configurable number of CS440Image CS440Images. Note that instances of this class are not thread-safe.
+	</td></tr>
+	<tr><td><a href="src/TemporalDiffTest.java">TemporalDiffTest.java</a>
+	</td><td>A test bench for TemporalDifferenceProcessor.java
+	</td></tr>
+	<tr><td><a href="src/VideoSink.java">VideoSink.java</a>
+	</td><td>The VideoSink class represents the entry point for high level analysis of videos. Images are fed to the VideoSink class via the receiveFrame. The videoSink has the ability to display images with the ImageViewer class.
+	</td></tr>
+	<tr><td><a href="src/VideoSource.java">VideoSource.java</a>
+	</td><td>A provider for CS440Image CS440Images.
+	</td></tr>
+</table>
+</p><p>
 Give a concise description of the implemented method. For example, you might describe the motivation of current idea, the algorithmic steps or any formulation used in current method.
 Please specify the main functions you created for this assignment and explain their uses shortly. For instance:
 "TemplateMatch": perform exhaustive searching the template matched sub-image in given object scene image for every pixel position
 "CalcCorrCoef": calculate the normalized correlation coefficient value for current sub-image and template image
+</p><br>
 
-<h3>Experimental Results</h3>
-List your experimental results here. Make sure the relevant parameter values are specified with the corresponding results. For instance:
+<div id="heading3">Experimental Results</div>
+<p>List your experimental results here. Make sure the relevant parameter values are specified with the corresponding results. For instance:
+Your results (sample images and/or videos)</p><br>
 
-<h3>Discussion & Conclusion</h3>
-Answer the questions given for current programming assignment in a clear way. Even though it is not mandatory, you are welcome to conclude the current method in this section in your own point of view. For example, you might want to point out the limitations and potential improvements for current methods in practical applications.
+<div id="heading3">Analysis of Results</div>
+<p>True positive detections
+<br>False negative detections
+<br>False positive detections
+<br>
+What were the difficulties in recognizing activities?
+<div id="heading4">Potential future work</div>
+What would you try (if you had more time) to overcome the failures/limitations of your work?
+</p><br>
 
- 
-
+<div id="heading3">Conclusion</div>
+<p>
+Even though it is not mandatory, you are welcome to conclude the current method in this section in your own point of view. For example, you might want to point out the limitations and potential improvements for current methods in practical applications.
 Finally, do not forget to add credits for any person you have discussed with. If you have used any resource of codes not specified in the class, please have a reference to them here. For instance:
+</p>
 
- 
-
-  Thank Jingbin Wang for helpful discussions.
-
-
-<h3>Recognized Gestures</h3>
-A description about which gestures your AI system can recognize
-<p></p>
-
-<h3>AI system recognition</h3>
-A description how your AI system recognizes these gestures
-<p></p>
-
-<h3>Assumptions</h3>
-A description of the assumptions that make your system work reliably
-<p></p>
-
-<h3>Code</h3>
-A hyperlink to your code
-<p></p>
-
-<h3>Results</h3>
-Your results (sample images and/or videos)
-<p></p>
-
-<h3>Analysis of Results</h3>
-<h4>How often was your program able to correctly identify an activity (number of true positive detections)?</h4>
-<h4>How often did your program miss detecting an activity (number of false negative detections)?</h4>
-<h4>How often did your program misinterpret an activity (number of false positive detections)?</h4>
-<h4>What were the difficulties in recognizing activities?</h4>
-<h4>Potential future work. What would you try (if you had more time) to overcome the failures/limitations of your work?</h4>
+</div>
 </body>
 </html>
