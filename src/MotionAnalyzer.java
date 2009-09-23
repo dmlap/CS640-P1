@@ -28,6 +28,7 @@ public class MotionAnalyzer implements Sink<ImageMoments>, Source<String> {
 	private static final double DOWN_RIGHT = -UP_RIGHT;
 	private static final double DOWN_LEFT = -UP_LEFT;
 
+	private double threshold = 0.70D;
 	/**
 	 * The number of {@link ImageMoments} to average across. It must be greater
 	 * than or equal to two.
@@ -38,6 +39,10 @@ public class MotionAnalyzer implements Sink<ImageMoments>, Source<String> {
 	 */
 	public double magnitudeThreshold = 0.5D;
 
+	MotionAnalyzer(double thresh) {
+		threshold = thresh;
+	}
+	
 	private ImageMoments lastSeen;
 	private Deque<Vector> vectors = new LinkedList<Vector>();
 	private Sink<ImageMoments> process = new Sink<ImageMoments>() {
@@ -86,7 +91,8 @@ public class MotionAnalyzer implements Sink<ImageMoments>, Source<String> {
 											confidence).toString();
 								}
 								for (Sink<String> subscriber : subscribers) {
-									subscriber.receive(result);
+									if (confidence >= threshold)
+										subscriber.receive(result);
 								}
 								vectors.remove();
 							}

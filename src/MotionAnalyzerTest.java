@@ -13,7 +13,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void leftToRight() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
@@ -33,7 +33,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void rightToLeft() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
@@ -53,7 +53,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void upToDown() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
@@ -73,7 +73,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void downToUp() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
@@ -93,7 +93,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void magnitudeThreshold() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
@@ -111,7 +111,7 @@ public class MotionAnalyzerTest {
 	public void arithmenticMeanOfMagnitudes() {
 		Random r = new Random();
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ArrayList<ImageMoments> ims = new ArrayList<ImageMoments>();
 		for(int i = 0; i < ma.window; ++i) {
 			ImageMoments im = new ImageMoments();
@@ -147,7 +147,7 @@ public class MotionAnalyzerTest {
 	@Test
 	public void confidence() {
 		final List<String> rs = new ArrayList<String>();
-		MotionAnalyzer ma = new MotionAnalyzer();
+		MotionAnalyzer ma = new MotionAnalyzer(0.70D);
 		ma.subscribe(new Sink<String>() {
 			@Override
 			public void receive(String s) {
