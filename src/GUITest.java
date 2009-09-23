@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 public class GUITest {
 	public static void main(String[] args) {
 		ImageViewer view = new ImageViewer();
-		ObjectTracker ot = new ObjectTracker(new ResultWindow(true));
+		ObjectTracker ot = new ObjectTracker(new ResultWindow(true), false);
 		BufferedImage i = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
 		
 		CS440Image ci = new CS440Image(i);

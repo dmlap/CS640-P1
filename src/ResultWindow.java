@@ -14,7 +14,8 @@ import javax.swing.JTextArea;
 /**
  * Class to output text results to a window
  */
-public class ResultWindow extends JFrame implements ActionListener, Sink<String> {
+public class ResultWindow extends JFrame implements ActionListener,
+		Sink<String> {
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scroller;
 	private JTextArea output;
@@ -25,26 +26,28 @@ public class ResultWindow extends JFrame implements ActionListener, Sink<String>
 
 	/**
 	 * Constructor
+	 * 
+	 * @param writeToDisk
+	 *            - boolean to determine whether info is written to a file
 	 */
 	public ResultWindow(boolean writeToDisk) {
 		initComponents();
-		
+
 		writeToFile = writeToDisk;
 		if (writeToDisk) {
 			try {
-				writer = new BufferedWriter(new FileWriter("resultOutput.txt", false));
+				writer = new BufferedWriter(new FileWriter("resultOutput.txt",
+						false));
 				writer.write("======== Start Output ========");
 				writer.newLine();
 				writer.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				try {
 					if (writer != null)
 						writer.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -74,8 +77,8 @@ public class ResultWindow extends JFrame implements ActionListener, Sink<String>
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				GroupLayout.Alignment.LEADING).addGroup(
 				layout.createSequentialGroup().addGroup(
-						layout.createParallelGroup().addComponent(pause, 
-								GroupLayout.PREFERRED_SIZE, 90, 
+						layout.createParallelGroup().addComponent(pause,
+								GroupLayout.PREFERRED_SIZE, 90,
 								GroupLayout.PREFERRED_SIZE)).addGroup(
 						layout.createSequentialGroup().addComponent(scroller,
 								GroupLayout.PREFERRED_SIZE, 800,
@@ -93,7 +96,10 @@ public class ResultWindow extends JFrame implements ActionListener, Sink<String>
 
 		pack();
 	}
-	
+
+	/**
+	 * Handles the action of pressing the Pause button
+	 */
 	public void actionPerformed(ActionEvent e) {
 		this.isPaused = !this.isPaused;
 		if (this.isPaused)
@@ -105,21 +111,29 @@ public class ResultWindow extends JFrame implements ActionListener, Sink<String>
 	/**
 	 * Appends text to the results window
 	 * 
-	 * @param text - the text to output
+	 * @param text
+	 *            - the text to output
 	 */
 	public void updateText(String text) {
 		if (!isPaused) {
 			output.append(text + "\n");
 			output.setCaretPosition(output.getDocument().getLength());
 		}
-		
+
 		if (writeToFile)
 			this.outputToFile(text);
 	}
-	
+
+	/**
+	 * Writes text to the output file
+	 * 
+	 * @param text
+	 *            - the text to output
+	 */
 	private void outputToFile(String text) {
 		try {
-			writer = new BufferedWriter(new FileWriter("resultOutput.txt", true));
+			writer = new BufferedWriter(
+					new FileWriter("resultOutput.txt", true));
 			writer.write(text);
 			writer.newLine();
 			writer.flush();

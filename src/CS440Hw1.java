@@ -25,7 +25,8 @@ public class CS440Hw1 {
 			
 			ImageMomentsGenerator img = new ImageMomentsGenerator(550);
 			TemporalDifferenceProcessor tdp = new TemporalDifferenceProcessor();
-			ObjectTracker ot = new ObjectTracker(results);
+			ObjectTracker ot = new ObjectTracker(results, false);
+			MotionAnalyzer ma = new MotionAnalyzer();
 			
 			dvs.subscribe(tdp);
 			dvs.subscribe(ot.GetFrameReceiver());
@@ -33,6 +34,7 @@ public class CS440Hw1 {
 			tdp.subscribe(img);
 			tdp.subscribe(diffViewer);
 			img.subscribe(ot);
+			ma.subscribe(results);
 			
 			//start grab
 			evs.run(ot);
