@@ -101,7 +101,13 @@ The temporal difference processor can be configured to average difference images
 blablabla
 
 </p><br>
-
+<div id="heading4">Motion Analysis</div>
+<p>
+The system aggregates the calculated image moments in order to deduce the direction and velocity of the object being captured.  It works by collecting a configurable number of image moments and then producing difference vectors from the centroids of time-adjacent moments.  The angle and magnitude of these difference vectors are then averaged and if the resulting vector is above a specifed velocity threshold, the direction and confidence of the motion is outputted to the results window.  The confidence value is proportional to the remainder of the averaged difference vector angle and pi/2.  
+</p>
+<p>
+A more robust solution would probably take magnitude into account when computing confidence.  It would also be interesting to calculate the average difference vector with more emphasis on the most recent measurements, perhaps using an exponential-weighted moving average instead of the arithmetic one.
+</p>
 <div id="heading3">Assumptions</div>
 <p>
 </p><br>
@@ -159,8 +165,12 @@ blablabla
 	</td><td>The VideoSink class represents the entry point for high level analysis of videos. Images are fed to the VideoSink class via the receiveFrame. The videoSink has the ability to display images with the ImageViewer class.
 	</td></tr>
 	<tr><td><a href="src/VideoSource.java">VideoSource.java</a>
-	</td><td>A provider for CS440Image CS440Images.
+	  </td><td>A provider for CS440Image CS440Images.
 	</td></tr>
+	<!--<tr>
+	  <td></td>
+	  <td></td>
+	</tr>-->
 </table>
 </p><p>
 Give a concise description of the implemented method. For example, you might describe the motivation of current idea, the algorithmic steps or any formulation used in current method.
