@@ -91,7 +91,12 @@ A comparison of these numbers would then yield a percentage of similarity, thus 
 </p>
 Techniques used:
 <p><div id="heading4">Temporal differencing</div>
-blablabla
+<p>
+The temporal difference processor takes two <code>CS440Image</code>s and generates a composite image.  To produce the composite, the processor iterates over the corresponding pixels in the two argument images and sets the composite pixel to be the absolute difference between the red, green and blue color bands in the source images.
+</p>
+<p>
+The temporal difference processor can be configured to average difference images over a configurable window.  While we had initially planned on using these average difference images to perform recognition, in practice this turned out to be not as effective as hoped.  In our final configuration, we reduced the window size to just two and used the difference images directly.
+</p>
 <br><br><div id="heading4">Image Moments</div>
 blablabla
 
