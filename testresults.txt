@@ -1,85 +1,59 @@
 TEST 1
-***did 30 pairs of alternate down/up and up/down motions:
+------
+10 movements: D U D U D U D U D U
 
-49 detections
- - 8 detections of side to side
- - 41 detections of up/down
+26 detections
 
-Left-to-right swipe - confidence: 0.388033142633751
-Left-to-right swipe - confidence: 0.4079092277943037
+2/26 (initialization margin)
+21/26 true positives
+0/26 false negatives
+3/26 false positives
 
-Down-to-up swipe - confidence: 0.8096783185214758
-Down-to-up swipe - confidence: 0.8104600799298026
-Down-to-up swipe - confidence: 0.8161531864006152
-Down-to-up swipe - confidence: 0.2171200491376348
-Down-to-up swipe - confidence: 0.2172176072451167
-Down-to-up swipe - confidence: 0.7290086802509169
-Down-to-up swipe - confidence: 0.1286640646237883
-Down-to-up swipe - confidence: 0.7146070094209074
-Down-to-up swipe - confidence: 0.7146662113389407
-Down-to-up swipe - confidence: 0.6981396996039195
-Down-to-up swipe - confidence: 0.7581956248552627
-Down-to-up swipe - confidence: 0.744615223691583
-Down-to-up swipe - confidence: 0.7237007920432176
+Right-to-left swipe - confidence: 0.16793115376324644
+Right-to-left swipe - confidence: 0.2438655256591977
 
-Left-to-right swipe - confidence: 0.3115738037232976
+Down-to-up swipe - confidence: 0.6435708074654695
+Down-to-up swipe - confidence: 0.6471614917459478
+Down-to-up swipe - confidence: 0.10867387580354726
+Down-to-up swipe - confidence: 0.10197733802781382
+Down-to-up swipe - confidence: 6.039501647035998E-5
+Down-to-up swipe - confidence: 0.9186254383998822
+Down-to-up swipe - confidence: 0.29458154674367043
+Down-to-up swipe - confidence: 0.7919603609983227
+Down-to-up swipe - confidence: 0.23432896234651326
 
-Down-to-up swipe - confidence: 0.7163401348744964
-Down-to-up swipe - confidence: 0.718279156877222
+Left-to-right swipe - confidence: 0.508536115957065
 
-Left-to-right swipe - confidence: 0.28533366325703013
+Down-to-up swipe - confidence: 0.44432408951289987
+Down-to-up swipe - confidence: 0.9788443224009685
+Down-to-up swipe - confidence: 0.44989884599441193
+Down-to-up swipe - confidence: 0.10135360551373118
+Down-to-up swipe - confidence: 0.8013910599138856
 
-Down-to-up swipe - confidence: 0.7765369814908457
-Down-to-up swipe - confidence: 0.6917777765748419
-Down-to-up swipe - confidence: 0.6676887284988715
-Down-to-up swipe - confidence: 0.6593464000367242
-Down-to-up swipe - confidence: 0.294794080589622
-Down-to-up swipe - confidence: 0.21107258534973805
-Down-to-up swipe - confidence: 0.28666053851692763
-Down-to-up swipe - confidence: 0.09589537399455256
+Right-to-left swipe - confidence: 0.4713210042739455
 
-Right-to-left swipe - confidence: 0.513805739763376
+Down-to-up swipe - confidence: 0.07658410511996684
+Down-to-up swipe - confidence: 0.5681005771735809
+Down-to-up swipe - confidence: 0.8611342836664968
 
-Down-to-up swipe - confidence: 0.912474182090331
-Down-to-up swipe - confidence: 0.5442028072957463
-Down-to-up swipe - confidence: 0.9498854359826067
-Down-to-up swipe - confidence: 0.7651347734349617
+Right-to-left swipe - confidence: 0.47118417777736155
 
-Left-to-right swipe - confidence: 0.35841139453131315
-
-Down-to-up swipe - confidence: 0.7466094597447762
-Down-to-up swipe - confidence: 0.7135686750974705
-
-Left-to-right swipe - confidence: 0.2800796268915447
-
-Down-to-up swipe - confidence: 0.6728026067611699
-Down-to-up swipe - confidence: 0.6349281674285487
-
-Left-to-right swipe - confidence: 0.24202242185339395
-
-Down-to-up swipe - confidence: 0.6096154956102188
-Down-to-up swipe - confidence: 0.04184651748968161
-Down-to-up swipe - confidence: 0.6505206335672598
-Down-to-up swipe - confidence: 0.6816904177740986
-Down-to-up swipe - confidence: 0.0835632728058837
-Down-to-up swipe - confidence: 0.7376709194090416
-Down-to-up swipe - confidence: 0.7756849169803125
-Down-to-up swipe - confidence: 0.18017929359138135
-Down-to-up swipe - confidence: 0.11546673992554303
-Down-to-up swipe - confidence: 0.6555841557073976
+Down-to-up swipe - confidence: 0.04594624865018013
+Down-to-up swipe - confidence: 0.9386515011862167
+Down-to-up swipe - confidence: 0.1383769874891548
+Down-to-up swipe - confidence: 0.13152345631306872
 
 TEST 2
-***moved my head sideways 5 times (R L R L R) 
-***changed code to mirror user
+------
+5 movements: R L R L R
+*changed code to mirror user
 
-detected general direction correctly everytime
-except for false detections in between
+30 detections
 
-30 detections:
-
-first 3 - to initialize
-
-8 false detections
+3/30 (initialization margin)
+17/30 positive detections
+0/30 false negative
+10/30 false positive detections
 
 Right-to-left swipe - confidence: 0.4228939189895797
 Down-to-up swipe - confidence: 0.8400753857319903
