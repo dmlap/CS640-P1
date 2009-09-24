@@ -37,7 +37,17 @@
 			font: bold .9em "trebuchet ms", arial, sans-serif;
 		}
 		
-	</style>
+	#container p {
+	font-family: Verdana, Geneva, sans-serif;
+}
+    #container pre {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
+    .imagemomentstext {
+	font-family: Verdana, Geneva, sans-serif;
+}
+    </style>
 </head>
 <body bgcolor=#222222>
 <div id="container">
@@ -70,24 +80,21 @@ The program is to be fed videos from webcams and at each frame, it should output
 	<tr><th>Gesture
 	</th><th>Gesture Description
 	</th></tr>
-	<tr><td>Head Shake</a>
-	</td><td>Shaking your head left and right.
+	<tr><td>Wave hand from left to right</a>
+	</td><td>The user should wave their hand from the left side of the camera to the right side of the camera.
 	</td></tr>
-	<tr><td>Gesture 2</a>
-	</td><td>Gesture Description
+	<tr><td>Wave hand from right to left</a>
+	</td><td>The user should wave their hand from the right side of the camera to the left side of the camers.
 	</td></tr>
-	<tr><td>Gesture 3</a>
-	</td><td>Gesture Description
+	<tr><td>Shake head up and down</a>
+	</td><td>The user should shake their head up and down multiple times while trying to keep their head from moving left and right.
 	</td></tr>
 	
 </table>
 </p><br>
 
 <div id="heading3">Method & Implementation</div>
-<p>The program grabs frames from the webcam and applies temporal differencing and from these processed frames, a binary image is produced. 
-Using image moments, the tracked object's centroid and a rectangle with similar moments are then computed and displayed.
-These values are then compared to the stored values that our predefined gestures produced.
-A comparison of these numbers would then yield a percentage of similarity, thus effectively determining the gesture being done.
+<p>The program grabs frames from the webcam and applies temporal differencing to sense motions in the frames.  From these processed frames a binary image is produced where black denotes no motion and white denotes a moving object. Using image moments, the tracked object's centroid, L1, L2 and theta are calculated.  This image moment information is passed to an object tracker and motion analyzer to track and interpret the image.  The object tracker creates a rectangle with similar moments based on the image moment and displays that to the user.  The motion analyzer then collects a series of image moments and calculates a trajectory of the movement to determine what gesture is taking place with a certain confidence.  If the confidence meets a 70% reliability then the result is printed to a console with the confidence.
 </p>
 Techniques used:
 <p><div id="heading4">Temporal differencing</div>
@@ -98,9 +105,13 @@ The temporal difference processor takes two <code>CS440Image</code>s and generat
 The temporal difference processor can be configured to average difference images over a configurable window.  While we had initially planned on using these average difference images to perform recognition, in practice this turned out to be not as effective as hoped.  In our final configuration, we reduced the window size to just two and used the difference images directly.
 </p>
 <br><br><div id="heading4">Image Moments</div>
-blablabla
-
-</p><br>
+<p>	The ImageMomentsGenerator class receives temporal difference images from the TemporalDifferenceProcessor class and computes their image moments. It then forwards the computed image moments to the ObjectTracker class.
+</p>
+<p> Initially the ImageMomentsGenerator was implemented to convert the whole image from RGB to binary by checking if the RGB values were not 0 for either of the Red, Green and Blue sections. If any value of Red, Green or Blue colors was greater than 0 the intensity was set to 1 and if not it was set to 0.
+	We found that doing this captures all small movements that are not useful for the assignment.  </p>
+<p>The binary image was found to be too sensitive to motion and caused a large detection area.  Instead the RGB values are summed together and compared to a threshold value that is adjustable.  This allowed for a better detection of white in the temporal images.</p>
+<p>Once binary images are generated, image moments (first and second order moments) and image properties(centroid of motion, lengths of the rectangle with moments similar to those of the motion, and orientation of the motion) are calculated using the formulas from the handout provided in class. All the computed values including properties and moments are forwarded to the ObjectTracker class.</p>
+<p>Image moments are the base processing unit of our motion recognizing code.  With these calculations we can determine what object is moving and the direction of its moving in.</p>
 <div id="heading4">Motion Analysis</div>
 <p>
 The system aggregates the calculated image moments in order to deduce the direction and velocity of the object being captured.  It works by collecting a configurable number of image moments and then producing difference vectors from the centroids of time-adjacent moments.  The angle and magnitude of these difference vectors are then averaged and if the resulting vector is above a specifed velocity threshold, the direction and confidence of the motion is outputted to the results window.  The confidence value is proportional to the remainder of the averaged difference vector angle and pi/2.  
@@ -109,9 +120,11 @@ The system aggregates the calculated image moments in order to deduce the direct
 A more robust solution would probably take magnitude into account when computing confidence.  It would also be interesting to calculate the average difference vector with more emphasis on the most recent measurements, perhaps using an exponential-weighted moving average instead of the arithmetic one.
 </p>
 <div id="heading3">Assumptions</div>
-<p>
-</p><br>
-
+<ul>
+<li>The user should be sitting in front of the camera with their torso in the view of the camera.
+</li>
+</ul>
+<br/>
 <div id="heading3">Code</div>
 <p>The following table contains hyperlinks to our code along with a short description of each:
 <br><br>
