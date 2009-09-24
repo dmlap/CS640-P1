@@ -1,219 +1,510 @@
 <html>
 <head>
-	<title>CS440/640 Project 1: AI Gesture Recognition</title></head>
-	<style type="text/css">
-		#heading1 {
-			color: #888888;
-			font: bold 2.8em arial, sans-serif;		
-		}
-		#heading2 {
-			color: #555555;
-			font: bold 1.4em arial, sans-serif;		
-		}
-		#heading3 {
-			color: #222;
-			font: bold .85em verdana, sans-serif;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-		}
-		#heading4 {
-			color: #222;
-			font: bold .85em verdana, sans-serif;
-		}		
-		#container {
-			text-align: justify;
-			width: 75%;
-			margin: 0 auto;
-			padding: 1em 2em;
-			background: #FFFFFF;
-			font: .8em "trebuchet ms", arial, sans-serif;
-		}
-		table {
-			font: 1em "trebuchet ms", arial, sans-serif;
-		}
-		table th { 
-			color: #222;
-			text-align: left;
-			font: bold .9em "trebuchet ms", arial, sans-serif;
-		}
-		
-	#container p {
-	font-family: Verdana, Geneva, sans-serif;
-}
-    #container pre {
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 12px;
-}
-    .imagemomentstext {
-	font-family: Verdana, Geneva, sans-serif;
-}
-    </style>
+    <title>CS440/640 Project 1: AI Gesture Recognition</title>
 </head>
-<body bgcolor=#222222>
-<div id="container">
-<div id="heading1">CAS CS440/640 Artificial Intelligence - Fall 2009</div>
-<div id="heading2">Project 1: AI Gesture Recognition</div>
-
-<br><table width=25%>
-	<tr><td>Justin Davis 
-	</td><td>U02433206
-	</td></tr>
-	<tr><td>Abhinay Evani
-	</td><td>U25320026
-	</td></tr>
-	<tr><td>David LaPalomento
-	</td><td>U62588858
-	</td></tr>
-	<tr><td>Howell Martinez
-	</td><td>U64454638
-	</td></tr>
-</table><br><br>
-
-<div id="heading3">Problem Definition</div>
-<p>The goal of this assignment is to design and implement a program that recognizes at least three different gestures of a person in front of a web camera.
-The program is to be fed videos from webcams and at each frame, it should output a score for each gesture that describes how likely a particular gesture is at this time.
-</p><br>
-
-<div id="heading3">Recognized Gestures</div>
-<p>Here is a list of our chosen gestures along with a short desciption of each:
-<br><br><table width=50%>
-	<tr><th>Gesture
-	</th><th>Gesture Description
-	</th></tr>
-	<tr><td>Wave hand from left to right</a>
-	</td><td>The user should wave their hand from the left side of the camera to the right side of the camera.
-	</td></tr>
-	<tr><td>Wave hand from right to left</a>
-	</td><td>The user should wave their hand from the right side of the camera to the left side of the camers.
-	</td></tr>
-	<tr><td>Shake head up and down</a>
-	</td><td>The user should shake their head up and down multiple times while trying to keep their head from moving left and right.
-	</td></tr>
-	
-</table>
-</p><br>
-
-<div id="heading3">Method & Implementation</div>
-<p>The program grabs frames from the webcam and applies temporal differencing to sense motions in the frames.  From these processed frames a binary image is produced where black denotes no motion and white denotes a moving object. Using image moments, the tracked object's centroid, L1, L2 and theta are calculated.  This image moment information is passed to an object tracker and motion analyzer to track and interpret the image.  The object tracker creates a rectangle with similar moments based on the image moment and displays that to the user.  The motion analyzer then collects a series of image moments and calculates a trajectory of the movement to determine what gesture is taking place with a certain confidence.  If the confidence meets a 70% reliability then the result is printed to a console with the confidence.
-</p>
-Techniques used:
-<p><div id="heading4">Temporal differencing</div>
-<p>
-The temporal difference processor takes two <code>CS440Image</code>s and generates a composite image.  To produce the composite, the processor iterates over the corresponding pixels in the two argument images and sets the composite pixel to be the absolute difference between the red, green and blue color bands in the source images.
-</p>
-<p>
-The temporal difference processor can be configured to average difference images over a configurable window.  While we had initially planned on using these average difference images to perform recognition, in practice this turned out to be not as effective as hoped.  In our final configuration, we reduced the window size to just two and used the difference images directly.
-</p>
-<br><br><div id="heading4">Image Moments</div>
-<p>	The ImageMomentsGenerator class receives temporal difference images from the TemporalDifferenceProcessor class and computes their image moments. It then forwards the computed image moments to the ObjectTracker class.
-</p>
-<p> Initially the ImageMomentsGenerator was implemented to convert the whole image from RGB to binary by checking if the RGB values were not 0 for either of the Red, Green and Blue sections. If any value of Red, Green or Blue colors was greater than 0 the intensity was set to 1 and if not it was set to 0.
-	We found that doing this captures all small movements that are not useful for the assignment.  </p>
-<p>The binary image was found to be too sensitive to motion and caused a large detection area.  Instead the RGB values are summed together and compared to a threshold value that is adjustable.  This allowed for a better detection of white in the temporal images.</p>
-<p>Once binary images are generated, image moments (first and second order moments) and image properties(centroid of motion, lengths of the rectangle with moments similar to those of the motion, and orientation of the motion) are calculated using the formulas from the handout provided in class. All the computed values including properties and moments are forwarded to the ObjectTracker class.</p>
-<p>Image moments are the base processing unit of our motion recognizing code.  With these calculations we can determine what object is moving and the direction of its moving in.</p>
-<div id="heading4">Motion Analysis</div>
-<p>
-The system aggregates the calculated image moments in order to deduce the direction and velocity of the object being captured.  It works by collecting a configurable number of image moments and then producing difference vectors from the centroids of time-adjacent moments.  The angle and magnitude of these difference vectors are then averaged and if the resulting vector is above a specifed velocity threshold, the direction and confidence of the motion is outputted to the results window.  The confidence value is proportional to the remainder of the averaged difference vector angle and pi/2.  
-</p>
-<p>
-A more robust solution would probably take magnitude into account when computing confidence.  It would also be interesting to calculate the average difference vector with more emphasis on the most recent measurements, perhaps using an exponential-weighted moving average instead of the arithmetic one.
-</p>
-<div id="heading3">Assumptions</div>
-<ul>
-<li>The user should be sitting in front of the camera with their torso in the view of the camera.
-</li>
-</ul>
-<br/>
-<div id="heading3">Code</div>
-<p>The following table contains hyperlinks to our code along with a short description of each:
-<br><br>
-<table width=100%>
-	<tr><th width=30%>File Name
-	</th><th>File Description
-	</th></tr>
-	<tr><td><a href="src/CS440Hw1.java">CS440Hw1.java</a>
-	</td><td>Main class for Hw1.
-	</td></tr>
-	<tr><td><a href="src/CS440Image.java">CS440Image.java</a>
-	</td><td>Data type for manipulating individual pixels of an image.
-	</td></tr>
-	<tr><td><a href="src/ExtVideoSource.java">ExtVideoSource.java</a>
-	</td><td>This class represents the video feed.
-	</td></tr>
-	<tr><td><a href="src/ImageMoments.java">ImageMoments.java</a>
-	</td><td>A class that stores the image moments of a CS440Image.
-	</td></tr>
-	<tr><td><a href="src/ImageMomentsGenerator.java">ImageMomentsGenerator.java</a>
-	</td><td>A CS440Image processor that considers the CS440Image image as a binary image and generates image moments and computes the desired object's centroid, orientation and length and breadth of a rectangle with the same moments.
-	</td></tr>
-	<tr><td><a href="src/ImageMomentTest.java">ImageMomentTest.java</a>
-	</td><td>A test bench for ImageMomentsGenerator.java.
-	</td></tr>
-	<tr><td><a href="src/ImageViewer.java">ImageViewer.java</a>
-	</td><td>A window which displays an image.
-	</td></tr>
-	<tr><td><a href="src/LowLevelImageFunctions.java">LowLevelImageFunctions.java</a>
-	</td><td>Defines static methods to manipulate and handle images and pixels. 
-	</td></tr>
-	<tr><td><a href="src/ObjectTracker.java">ObjectTracker.java</a>
-	</td><td>Uses the centroid, breadth and width provided by ImageMoments to create a bounding box on items that are moving.
-	</td></tr>
-	<tr><td><a href="src/ResultWindow.java">ResultWindow.java</a>
-	</td><td>Class to output text results to a window.
-	</td></tr>
-	<tr><td><a href="src/Sink.java">Sink.java</a>
-	</td><td>A generic interface for objects which can be notified of <code>T</code>s.
-	</td></tr>
-	<tr><td><a href="src/Source.java">Source.java</a>
-	</td><td>An object which can notify Sink Sinks of <code>T</code> events.
-	</td></tr>
-	<tr><td><a href="src/TemporalDifferenceProcessor.java">TemporalDifferenceProcessor.java</a>
-	</td><td>A CS440Image processor that produces composite background differences from a configurable number of CS440Image CS440Images. Note that instances of this class are not thread-safe.
-	</td></tr>
-	<tr><td><a href="src/TemporalDiffTest.java">TemporalDiffTest.java</a>
-	</td><td>A test bench for TemporalDifferenceProcessor.java
-	</td></tr>
-	<tr><td><a href="src/VideoSink.java">VideoSink.java</a>
-	</td><td>The VideoSink class represents the entry point for high level analysis of videos. Images are fed to the VideoSink class via the receiveFrame. The videoSink has the ability to display images with the ImageViewer class.
-	</td></tr>
-	<tr><td><a href="src/VideoSource.java">VideoSource.java</a>
-	  </td><td>A provider for CS440Image CS440Images.
-	</td></tr>
-	<tr>
-	  <td><a href="src/MotionAnalyzer.java">MotionAnalyzer.java</a></td>
-	  <td>
-	    An object that examines successive <a href="src/ImageMoments.java">ImageMoments</a> and uses the arithmetic average of magnitude and angle differences to determine whether the motion is left-to-right, right-to-left, up-to-down, or down-to-up and reports a confidence value.
-</td>
-	</tr>
-</table>
-</p><p>
-Give a concise description of the implemented method. For example, you might describe the motivation of current idea, the algorithmic steps or any formulation used in current method.
-Please specify the main functions you created for this assignment and explain their uses shortly. For instance:
-"TemplateMatch": perform exhaustive searching the template matched sub-image in given object scene image for every pixel position
-"CalcCorrCoef": calculate the normalized correlation coefficient value for current sub-image and template image
-</p><br>
-
-<div id="heading3">Experimental Results</div>
-<p>List your experimental results here. Make sure the relevant parameter values are specified with the corresponding results. For instance:
-Your results (sample images and/or videos)</p><br>
-
-<div id="heading3">Analysis of Results</div>
-<p>True positive detections
-<br>False negative detections
-<br>False positive detections
-<br>
-What were the difficulties in recognizing activities?
-<div id="heading4">Potential future work</div>
-What would you try (if you had more time) to overcome the failures/limitations of your work?
-</p><br>
-
-<div id="heading3">Conclusion</div>
-<p>
-Even though it is not mandatory, you are welcome to conclude the current method in this section in your own point of view. For example, you might want to point out the limitations and potential improvements for current methods in practical applications.
-Finally, do not forget to add credits for any person you have discussed with. If you have used any resource of codes not specified in the class, please have a reference to them here. For instance:
-</p>
-
-</div>
+<style type="text/css">
+    #heading1
+    {
+        color: #888888;
+        font: bold 2.8em arial, sans-serif;
+    }
+    #heading2
+    {
+        color: #555555;
+        font: bold 1.4em arial, sans-serif;
+    }
+    #heading3
+    {
+        color: #222;
+        font: bold .85em verdana, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    #heading4
+    {
+        color: #222;
+        font: bold .85em verdana, sans-serif;
+    }
+    #container
+    {
+        text-align: justify;
+        width: 75%;
+        margin: 0 auto;
+        padding: 1em 2em;
+        background: #FFFFFF;
+        font: .8em "trebuchet ms" , arial, sans-serif;
+    }
+    table
+    {
+        font: 1em "trebuchet ms" , arial, sans-serif;
+    }
+    table th
+    {
+        color: #222;
+        text-align: left;
+        font: bold .9em "trebuchet ms" , arial, sans-serif;
+    }
+    #container p
+    {
+        font-family: Verdana, Geneva, sans-serif;
+    }
+    #container pre
+    {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 12px;
+    }
+    .imagemomentstext
+    {
+        font-family: Verdana, Geneva, sans-serif;
+    }
+</style>
+</head>
+<body bgcolor="#222222">
+    <div id="container">
+        <div id="heading1">
+            CAS CS440/640 Artificial Intelligence - Fall 2009</div>
+        <div id="heading2">
+            Project 1: AI Gesture Recognition</div>
+        <br>
+        <table width="25%">
+            <tr>
+                <td>
+                    Justin Davis
+                </td>
+                <td>
+                    U02433206
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Abhinay Evani
+                </td>
+                <td>
+                    U25320026
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    David LaPalomento
+                </td>
+                <td>
+                    U62588858
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Howell Martinez
+                </td>
+                <td>
+                    U64454638
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <div id="heading3">
+            Problem Definition</div>
+        <p>
+            The goal of this assignment is to design and implement a program that recognizes
+            at least three different gestures of a person in front of a web camera. The program
+            is to be fed videos from webcams and at each frame, it should output a score for
+            each gesture that describes how likely a particular gesture is at this time.
+        </p>
+        <br>
+        <div id="heading3">
+            Recognized Gestures</div>
+        <p>
+            Here is a list of our chosen gestures along with a short desciption of each:
+            <br>
+            <br>
+            <table width="50%">
+                <tr>
+                    <th>
+                        Gesture
+                    </th>
+                    <th>
+                        Gesture Description
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Wave hand from left to right</a>
+                    </td>
+                    <td>
+                        The user should wave their hand from the left side of the camera to the right side
+                        of the camera.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Wave hand from right to left</a>
+                    </td>
+                    <td>
+                        The user should wave their hand from the right side of the camera to the left side
+                        of the camers.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Shake head up and down</a>
+                    </td>
+                    <td>
+                        The user should shake their head up and down multiple times while trying to keep
+                        their head from moving left and right.
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <br>
+        <div id="heading3">
+            Method & Implementation</div>
+        <p>
+            The program grabs frames from the webcam and applies temporal differencing to sense
+            motions in the frames. From these processed frames a binary image is produced where
+            black denotes no motion and white denotes a moving object. Using image moments,
+            the tracked object's centroid, L1, L2 and theta are calculated. This image moment
+            information is passed to an object tracker and motion analyzer to track and interpret
+            the image. The object tracker creates a rectangle with similar moments based on
+            the image moment and displays that to the user. The motion analyzer then collects
+            a series of image moments and calculates a trajectory of the movement to determine
+            what gesture is taking place with a certain confidence. If the confidence meets
+            a 70% reliability then the result is printed to a console with the confidence.
+        </p>
+        Techniques used:
+        <p>
+            <div id="heading4">
+                Temporal differencing</div>
+            <p>
+                The temporal difference processor takes two <code>CS440Image</code>s and generates
+                a composite image. To produce the composite, the processor iterates over the corresponding
+                pixels in the two argument images and sets the composite pixel to be the absolute
+                difference between the red, green and blue color bands in the source images.
+            </p>
+            <p>
+                The temporal difference processor can be configured to average difference images
+                over a configurable window. While we had initially planned on using these average
+                difference images to perform recognition, in practice this turned out to be not
+                as effective as hoped. In our final configuration, we reduced the window size to
+                just two and used the difference images directly.
+            </p>
+            <div id="heading4">
+                Image Moments</div>
+            <p>
+                The image moments generator takes a <code>CS440Image</code> that has been converted
+                to a temporal difference image by the temporal difference processor. The moments
+                generator calculates the M00, M10, M01, M11, M02, and M20 moments using the formulas
+                provided in class. With the M values calculated the generator then calculates the
+                centroid (x, y), the height and width of the area in L1 and L2, and the theta angle
+                of the rectangle.
+            </p>
+            <p>
+                The image moments generator can be configured with a threshold value for the intensity.
+                Due too a high sensitivity in motion detection a threshold value was instituted
+                that is compared to the sum of the RGB value to determine if the pixel color is
+                close to white. Doing this removes noise from the temporal difference image so that
+                it focuses on the objects that are moving.
+            </p>
+            <div id="heading4">
+                Motion Analysis</div>
+            <p>
+                The system aggregates the calculated image moments in order to deduce the direction
+                and velocity of the object being captured. It works by collecting a configurable
+                number of image moments and then producing difference vectors from the centroids
+                of time-adjacent moments. The angle and magnitude of these difference vectors are
+                then averaged and if the resulting vector is above a specifed velocity threshold,
+                the direction and confidence of the motion is outputted to the results window. The
+                confidence value is proportional to the remainder of the averaged difference vector
+                angle and pi/2.
+            </p>
+            <p>
+                A more robust solution would probably take magnitude into account when computing
+                confidence. It would also be interesting to calculate the average difference vector
+                with more emphasis on the most recent measurements, perhaps using an exponential-weighted
+                moving average instead of the arithmetic one.
+            </p>
+            <div id="heading3">
+                Assumptions</div>
+            <ul>
+                <li>The user should be sitting in front of the camera with their torso in the view of
+                    the camera. </li>
+                <li>The user should try to be in a well lit area with a background that does not have
+                    many moving objects.</li>
+            </ul>
+            <br />
+            <div id="heading3">
+                Code</div>
+            <p>
+                The following table contains hyperlinks to our code along with a short description
+                of each:
+                <br>
+                <br>
+                <table width="100%">
+                    <tr>
+                        <th width="30%">
+                            File Name
+                        </th>
+                        <th>
+                            File Description
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/CS440Hw1.java">CS440Hw1.java</a>
+                        </td>
+                        <td>
+                            Main class for Hw1.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/CS440Image.java">CS440Image.java</a>
+                        </td>
+                        <td>
+                            Data type for manipulating individual pixels of an image.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ExtVideoSource.java">ExtVideoSource.java</a>
+                        </td>
+                        <td>
+                            This class represents the video feed.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ImageMoments.java">ImageMoments.java</a>
+                        </td>
+                        <td>
+                            A class that stores the image moments of a CS440Image.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ImageMomentsGenerator.java">ImageMomentsGenerator.java</a>
+                        </td>
+                        <td>
+                            A CS440Image processor that considers the CS440Image image as a binary image and
+                            generates image moments and computes the desired object's centroid, orientation
+                            and length and breadth of a rectangle with the same moments.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ImageMomentTest.java">ImageMomentTest.java</a>
+                        </td>
+                        <td>
+                            A test bench for ImageMomentsGenerator.java.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ImageViewer.java">ImageViewer.java</a>
+                        </td>
+                        <td>
+                            A window which displays an image.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/LowLevelImageFunctions.java">LowLevelImageFunctions.java</a>
+                        </td>
+                        <td>
+                            Defines static methods to manipulate and handle images and pixels.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ObjectTracker.java">ObjectTracker.java</a>
+                        </td>
+                        <td>
+                            Uses the centroid, breadth and width provided by ImageMoments to create a bounding
+                            box on items that are moving.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/ResultWindow.java">ResultWindow.java</a>
+                        </td>
+                        <td>
+                            Class to output text results to a window.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/Sink.java">Sink.java</a>
+                        </td>
+                        <td>
+                            A generic interface for objects which can be notified of <code>T</code>s.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/Source.java">Source.java</a>
+                        </td>
+                        <td>
+                            An object which can notify Sink Sinks of <code>T</code> events.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/TemporalDifferenceProcessor.java">TemporalDifferenceProcessor.java</a>
+                        </td>
+                        <td>
+                            A CS440Image processor that produces composite background differences from a configurable
+                            number of CS440Image CS440Images. Note that instances of this class are not thread-safe.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/TemporalDiffTest.java">TemporalDiffTest.java</a>
+                        </td>
+                        <td>
+                            A test bench for TemporalDifferenceProcessor.java
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/VideoSink.java">VideoSink.java</a>
+                        </td>
+                        <td>
+                            The VideoSink class represents the entry point for high level analysis of videos.
+                            Images are fed to the VideoSink class via the receiveFrame. The videoSink has the
+                            ability to display images with the ImageViewer class.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/VideoSource.java">VideoSource.java</a>
+                        </td>
+                        <td>
+                            A provider for CS440Image CS440Images.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="src/MotionAnalyzer.java">MotionAnalyzer.java</a>
+                        </td>
+                        <td>
+                            An object that examines successive <a href="src/ImageMoments.java">ImageMoments</a>
+                            and uses the arithmetic average of magnitude and angle differences to determine
+                            whether the motion is left-to-right, right-to-left, up-to-down, or down-to-up and
+                            reports a confidence value.
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                Give a concise description of the implemented method. For example, you might describe
+                the motivation of current idea, the algorithmic steps or any formulation used in
+                current method. Please specify the main functions you created for this assignment
+                and explain their uses shortly. For instance: "TemplateMatch": perform exhaustive
+                searching the template matched sub-image in given object scene image for every pixel
+                position "CalcCorrCoef": calculate the normalized correlation coefficient value
+                for current sub-image and template image
+            </p>
+            <br>
+            <div id="heading3">
+                Experimental Results</div>
+            <br />
+            <div id="Div1">
+                Files
+                <p>
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="testresults.txt">Test Results</a>
+                            </td>
+                            <td>
+                                Recording of test results of gesture detection
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="CS640-P1.wmv">Video 1</a>
+                            </td>
+                            <td>
+                                Video of preliminary work on the object tracker with debug output
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="">Video 2</a>
+                            </td>
+                            <td>
+                                Video of final output
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <p>
+                <table>
+                    <tr>
+                        <td>
+                            Comparison of tracker and temporal images
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="exp-res1-crop.jpg" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="exp-res2-crop.jpg" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="exp-res3-crop.jpg" />
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <br />
+            <div id="heading3">
+                Analysis of Results (Each gesture has an initialization that is ignored which is
+                why the totals do not match)</div>
+            <p>
+                True positive detections
+                <ul>
+                    <li>Gesture 1 (Wave hand from left to right): 17/30 (56.67%)</li>
+                    <li>Gesture 2 (Wave hand from right to left): 17/30 (56.67%)</li>
+                    <li>Gesture 3 (Shake head up and down): 21/26 (80.77%)</li>
+                </ul>
+                <br />
+                False negative detections
+                <ul>
+                    <li>Gesture 1 (Wave hand from left to right): 0/30 (0.00%)</li>
+                    <li>Gesture 2 (Wave hand from right to left): 0/30 (0.00%)</li>
+                    <li>Gesture 3 (Shake head up and down): 0/26 (0.00%)</li>
+                </ul>
+                <br />
+                False positive detections
+                <ul>
+                    <li>Gesture 1 (Wave hand from left to right): 10/30 (33.33%)</li>
+                    <li>Gesture 2 (Wave hand from right to left): 10/30 (33.33%)</li>
+                    <li>Gesture 3 (Shake head up and down): 3/26 (11.54%)</li>
+                </ul>
+                <br />
+                What were the difficulties in recognizing activities?
+                <div id="heading4">
+                    Potential future work</div>
+                What would you try (if you had more time) to overcome the failures/limitations of
+                your work?
+            </p>
+            <br>
+            <div id="heading3">
+                Conclusion</div>
+            <p>
+                Even though it is not mandatory, you are welcome to conclude the current method
+                in this section in your own point of view. For example, you might want to point
+                out the limitations and potential improvements for current methods in practical
+                applications. Finally, do not forget to add credits for any person you have discussed
+                with. If you have used any resource of codes not specified in the class, please
+                have a reference to them here. For instance:
+            </p>
+    </div>
 </body>
 </html>
