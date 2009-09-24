@@ -17,10 +17,10 @@ import java.util.List;
  * 
  */
 public class MotionAnalyzer implements Sink<ImageMoments>, Source<String> {
-	public static final String L_TO_R = "Left-to-right swipe - confidence: ";
-	public static final String R_TO_L = "Right-to-left swipe - confidence: ";
-	public static final String U_TO_D = "Up-to-down swipe - confidence: ";
-	public static final String D_TO_U = "Down-to-up swipe - confidence: ";
+	public static final String L_TO_R = "Right-to-left swipe - confidence: ";
+	public static final String R_TO_L = "Left-to-right swipe - confidence: ";
+	public static final String U_TO_D = "Down-to-up swipe - confidence: ";
+	public static final String D_TO_U = "Up-to-down swipe - confidence: ";
 
 	private static final double HALF_PI = Math.PI / 2;
 	private static final double UP_LEFT = (3 * Math.PI) / 4;
