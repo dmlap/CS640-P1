@@ -114,7 +114,7 @@
         <div id="heading3">
             Recognized Gestures</div>
         <p>
-            Here is a list of our chosen gestures along with a short desciption of each:
+            Here is a list of our chosen gestures along with a short description of each:
             <br>
             <br>
             <table width="50%">
@@ -141,7 +141,7 @@
                     </td>
                     <td>
                         The user should wave their hand from the right side of the camera to the left side
-                        of the camers.
+                        of the cameras.
                     </td>
                 </tr>
                 <tr>
@@ -211,7 +211,7 @@
                 and velocity of the object being captured. It works by collecting a configurable
                 number of image moments and then producing difference vectors from the centroids
                 of time-adjacent moments. The angle and magnitude of these difference vectors are
-                then averaged and if the resulting vector is above a specifed velocity threshold,
+                then averaged and if the resulting vector is above a specified velocity threshold,
                 the direction and confidence of the motion is outputted to the results window. The
                 confidence value is proportional to the remainder of the averaged difference vector
                 angle and pi/2.
@@ -488,25 +488,18 @@
                     <li>Gesture 3 (Shake head up and down): 3/26 (11.54%)</li>
                 </ul>
                 <br />
-                What were the difficulties in recognizing activities?
                 <div id="heading4">
                     Potential future work</div>
 <p>There are a number of avenues for improving and expanding on the gesture recognition in this project.  Our recognition system is based entirely on movement; a more full-featured gesture recognition program could incorporate techniques for analyzing still images like an axial-projection histogram for skin tone detection.  Our centroid-based movement detection scheme could also be generalized to do optical flow analysis across the entire image.</p>
 <p>In addition, enhancements could be made to increase the robustness of the current functionality.  More time to tune measurement thresholds may have made the results more robust in the face of varying scene characteristics.  The team would have also liked to optimize the performance of the temporal difference processor so larger time windows could have been analyzed.
 </p>
-
             </p>
             <br>
             <div id="heading3">
                 Conclusion</div>
-            <p>
-                Even though it is not mandatory, you are welcome to conclude the current method
-                in this section in your own point of view. For example, you might want to point
-                out the limitations and potential improvements for current methods in practical
-                applications. Finally, do not forget to add credits for any person you have discussed
-                with. If you have used any resource of codes not specified in the class, please
-                have a reference to them here. For instance:
-            </p>
+	    <p>
+	      In general, our group was satisfied with the results we achieved in gesture recognition.  Despite this being the first exposure to these techniques for all team members, our results indicate successful identifications under controlled conditions.  One challenge that became apparent in this work is that the analysis algorithms under consideration were reliable in only a narrow band of the "gesture-space".  Finding gestures that were amenable to classification while implementing the algorithms motivated a number of mid-course corrections and required flexible goal-setting.
+	    </p>
     </div>
 </body>
 </html>
